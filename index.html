@@ -9,6 +9,7 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
     <style>
         :root {
@@ -19,10 +20,10 @@
         }
 
         body { background-color: var(--bg); color: var(--text-main); font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; margin: 0; }
-        .serif-luxury { font-family: 'Cormorant Gramamond', serif; }
+        .serif-luxury { font-family: 'Cormorant Garamond', serif; }
         .tracking-ultra { letter-spacing: 0.5em; text-transform: uppercase; font-size: 10px; }
 
-        /* --- NAV STYLE --- */
+        /* --- NAV STYLE (ORIGINAL) --- */
         .glass-nav {
             background: rgba(5, 5, 5, 0.8);
             backdrop-filter: blur(20px);
@@ -43,13 +44,46 @@
         .tekton-path { fill: none; stroke: #ffffff; stroke-width: 0.7; stroke-dasharray: 1000; stroke-dashoffset: 1000; }
         .blueprint-grid { position: absolute; inset: 0; background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 30px 30px; opacity: 0; }
 
-        /* --- MOBILE MENU (SOLID BLACK) --- */
+        /* --- MOBILE MENU --- */
         #mobile-menu { background: #000000; }
+        .mobile-lang-btn { opacity: 0.5; transition: all 0.3s; }
+        .mobile-lang-btn.active { opacity: 1; border-bottom: 1px solid white; }
 
         .main-wrapper { opacity: 0; visibility: hidden; }
         .responsive-img { width: 100%; height: auto; object-fit: cover; aspect-ratio: 4/5; }
         @media (min-width: 768px) { .responsive-img { aspect-ratio: 16/9; } }
         .parallax-frame { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 92%); border: 1px solid rgba(255,255,255,0.05); }
+
+        /* --- POPUP STYLES --- */
+        #vision-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(20px);
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: rgba(10, 10, 10, 0.9);
+            border: 1px solid rgba(255,255,255,0.05);
+            max-width: 700px;
+            width: 100%;
+            padding: 40px;
+            position: relative;
+            transform: translateY(30px);
+        }
+
+        @media (min-width: 768px) { .modal-content { padding: 70px; } }
+
+        /* --- MONOLITH SECTION --- */
+        .reveal-box { overflow: hidden; position: relative; }
+        .reveal-box img { transform: scale(1.2); transition: transform 2.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-box.active img { transform: scale(1); }
     </style>
 </head>
 <body class="antialiased">
@@ -57,30 +91,33 @@
     <div id="preloader">
         <div class="blueprint-grid"></div>
         <svg class="w-[85%] max-w-[500px] overflow-visible" viewBox="0 0 500 120">
-            <path class="tekton-path" d="M20,20 H80 M50,20 V100 M100,20 H150 M100,60 H140 M100,100 H150 M100,20 V100 M180,20 V100 M180,60 L230,20 M180,60 L230,100 M250,20 H310 M280,20 V100 M330,60 A40,40 0 1,0 410,60 A40,40 0 1,0 330,60 M430,100 V20 L480,100 V20" /> 
+            <path class="tekton-path" d="M20,20 H80 M50,20 V100 M100,20 H150 M100,60 H140 M100,100 H150 M100,20 V100 M180,20 V100 M180,60 L230,20 M180,60 L230,100 M250,20 H310 M280,20 V100 M330,60 A40,40 0 1,0 410,60 A40,40 0 1,0 330,60 M430,100 V20 L480,100 V20" />
         </svg>
+    </div>
+
+    <div id="vision-modal" class="flex">
+        <div class="modal-content">
+            <button id="close-modal" class="absolute top-6 right-6 text-[9px] tracking-ultra opacity-40 hover:opacity-100 transition-opacity">CLOSE</button>
+            <span class="tracking-ultra text-[#948677] mb-4 block text-[9px]">The Master Architect</span>
+            <h2 class="serif-luxury text-3xl md:text-5xl mb-6">Fitim Hoti</h2>
+            <div class="w-10 h-px bg-[#948677] mb-8"></div>
+            <p class="text-zinc-400 leading-relaxed text-base md:text-xl italic serif-luxury">
+                "Për Fitim Hotin, arkitektura nuk është thjesht ndërtim; është një dialog midis heshtjes dhe hapësirës. Ai beson në eliminimin e të tepërtës për të nxjerrë në pah shpirtin e materialit. Çdo projekt është një udhëtim ku drita natyrale dikton formën."
+            </p>
+            <p class="mt-8 text-[8px] tracking-ultra text-zinc-600 uppercase">Tekton Philosophy & Vision</p>
+        </div>
     </div>
 
     <div id="mobile-menu" class="fixed inset-0 z-[200] hidden flex-col items-center justify-center space-y-10 text-2xl uppercase tracking-[0.3em] font-light">
         <button id="close-menu" class="absolute top-10 right-10 text-sm tracking-ultra" data-key="nav-close">Close</button>
-        
         <nav class="flex flex-col items-center space-y-8">
             <a href="index.html" class="hover:text-[#948677] transition-colors" data-key="nav-home">Home</a>
             <a href="projects.html" class="hover:text-[#948677] transition-colors" data-key="nav-projects">Projects</a>
             <a href="services.html" class="hover:text-[#948677] transition-colors" data-key="nav-services">Services</a>
             <a href="about.html" class="hover:text-[#948677] transition-colors" data-key="nav-studio">Studio</a>
         </nav>
-
-        <div class="pt-6">
-            <a href="contact.html" class="px-10 py-4 border border-white/20 text-[10px] uppercase tracking-[0.4em] hover:bg-white hover:text-black transition-all duration-500" data-key="nav-talk">
-                Let's Talk
-            </a>
-        </div>
-
-        <div class="flex items-center space-x-6 pt-10 border-t border-white/10 w-40 justify-center">
-            <button onclick="setLanguage('sq')" class="mobile-lang-btn text-sm tracking-widest opacity-50 transition-all" id="m-lang-sq">SQ</button>
-            <span class="text-zinc-800">/</span>
-            <button onclick="setLanguage('en')" class="mobile-lang-btn text-sm tracking-widest opacity-50 transition-all" id="m-lang-en">EN</button>
+        <div class="pt-4">
+            <a href="contact.html" class="px-10 py-4 border border-white/20 text-[10px] uppercase tracking-[0.4em] hover:bg-white hover:text-black transition-all duration-500" data-key="nav-talk">Let's Talk</a>
         </div>
     </div>
 
@@ -103,7 +140,6 @@
                 <a href="projects.html" class="tracking-ultra hover:text-white transition-all" data-key="nav-projects">Projects</a>
                 <a href="services.html" class="tracking-ultra hover:text-white transition-all" data-key="nav-services">Services</a>
                 <a href="about.html" class="tracking-ultra hover:text-white transition-all" data-key="nav-studio">Studio</a>
-                
                 <div class="flex items-center space-x-3 ml-4 border-l border-white/10 pl-6">
                     <button onclick="setLanguage('sq')" id="lang-sq" class="lang-btn text-[10px]">SQ</button>
                     <span class="text-zinc-700">/</span>
@@ -124,46 +160,82 @@
         <section class="min-h-screen flex items-center px-6 md:px-20 pt-24">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center w-full">
                 <div class="lg:col-span-7 hero-fade opacity-0 translate-y-10">
-                    <h1 class="serif-luxury text-5xl md:text-[120px] leading-[0.9] mb-8">
+                    <h1 class="serif-luxury text-5xl md:text-[110px] leading-[0.9] mb-8">
                         Pure <br> <span class="italic font-light opacity-30">Substance.</span>
                     </h1>
                     <p class="max-w-md text-zinc-500 text-sm md:text-base mb-10 leading-relaxed" data-key="hero-desc">
                         Tekton përfaqëson një standard të ri në arkitekturë, ku çdo detaj është një simfoni midis dritës dhe hapësirës.
                     </p>
-                    <button class="flex items-center space-x-4 group">
-                        <div class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-white transition-all duration-500">
-                            <svg width="10" height="10" viewBox="0 0 12 12" class="group-hover:stroke-black stroke-white"><path d="M1 11L11 1M11 1H1M11 1V11" stroke-width="1.5" fill="none"/></svg>
-                        </div>
-                        <span class="tracking-ultra" data-key="hero-cta">Discover Vision</span>
-                    </button>
+                    
+                    <div class="flex flex-col md:flex-row gap-8">
+                        <button id="open-vision" class="flex items-center space-x-4 group">
+                            <div class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-white transition-all duration-500">
+                                <svg width="10" height="10" viewBox="0 0 12 12" class="group-hover:stroke-black stroke-white"><path d="M1 11L11 1M11 1H1M11 1V11" stroke-width="1.5" fill="none"/></svg>
+                            </div>
+                            <span class="tracking-ultra" data-key="hero-cta">Discover Vision</span>
+                        </button>
+
+                        <a href="https://pdfelementcloud.wondershare.com/share/review/V55qsdQ24HQjdeGySt1Pgeh1s_YT_MzqchA3wA-xQMdfZS2Za0-xAE_Uiw-9OT5FT7U36q5AiVw0SBoND0XoLnuwogQh_xlSovyKEmOVW-s" 
+                           target="_blank" 
+                           class="flex items-center space-x-4 group">
+                            <div class="w-12 h-12 rounded-full border border-[#948677] flex items-center justify-center group-hover:bg-[#948677] transition-all duration-500 shadow-[0_0_15px_rgba(148,134,119,0.3)]">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" class="stroke-[#948677] group-hover:stroke-black transition-colors" stroke-width="1.5">
+                                    <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                </svg>
+                            </div>
+                            <span class="tracking-ultra text-[#948677]">View Portfolio</span>
+                        </a>
+                    </div>
                 </div>
                 <div class="lg:col-span-5 hero-fade opacity-0 scale-95">
                     <div class="parallax-frame overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1000" class="responsive-img grayscale brightness-75 hover:scale-105 transition-transform duration-1000">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1000" class="responsive-img grayscale brightness-75">
                     </div>
                 </div>
             </div>
         </section>
 
-        <footer class="py-10 px-6 md:px-20 border-t border-white/5">
-            <p class="text-[10px] tracking-widest text-zinc-600 uppercase">© 2026 TEKTON ARCHITECTS. ALL RIGHTS RESERVED.</p>
+        <section class="py-32 px-6 md:px-20 border-t border-white/5 bg-[#080808]">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="reveal-box rounded-sm" id="monolith-img">
+                    <img src="Images/shtepia.jpg" class="w-full grayscale brightness-50">
+                </div>
+                <div class="space-y-8">
+                    <span class="tracking-ultra text-[#948677]">01. Philosophy</span>
+                    <h2 class="serif-luxury text-4xl md:text-6xl italic leading-tight">Më pak është <br> Monumentale.</h2>
+                    <p class="text-zinc-500 max-w-sm leading-relaxed text-sm md:text-base">
+                        Ne besojmë se bukuria e vërtetë fshihet në thjeshtësinë radikale. Çdo vijë që vizatojmë ka një qëllim, çdo hapësirë që krijojmë ka një frymëmarrje.
+                    </p>
+                    <div class="pt-4">
+                        <div class="w-full h-px bg-white/10 relative">
+                            <div id="scroll-line" class="absolute left-0 top-0 h-full bg-[#948677] w-0"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="py-12 px-6 md:px-20 border-t border-white/5 text-center md:text-left">
+            <p class="text-[9px] tracking-[0.4em] text-zinc-600 uppercase">© 2026 TEKTON ARCHITECTS. Purity in Form.</p>
         </footer>
     </div>
 
     <script>
+        gsap.registerPlugin(ScrollTrigger);
+
         const translations = {
             sq: {
-                "nav-home": "Ballina", "nav-projects": "Projekte", "nav-services": "Shërbime", 
+                "nav-home": "Ballina", "nav-projects": "Projekte", "nav-services": "Shërbime",
                 "nav-studio": "Studio", "nav-talk": "Bisedojmë", "nav-close": "Mbyll",
-                "sub-logo": "Arkitekturë & Dizajn", 
-                "hero-desc": "Tekton përfaqëson një standard të ri në arkitekturë, ku çdo detaj është një simfoni.", 
+                "sub-logo": "Arkitekturë & Dizajn",
+                "hero-desc": "Tekton përfaqëson një standard të ri në arkitekturë, ku çdo detaj është një simfoni midis dritës dhe hapësirës.",
                 "hero-cta": "Zbuloni Vizionin"
             },
             en: {
-                "nav-home": "Home", "nav-projects": "Projects", "nav-services": "Services", 
+                "nav-home": "Home", "nav-projects": "Projects", "nav-services": "Services",
                 "nav-studio": "Studio", "nav-talk": "Let's Talk", "nav-close": "Close",
-                "sub-logo": "Architecture & Design", 
-                "hero-desc": "Tekton represents a new standard in architecture, where every detail is a symphony.", 
+                "sub-logo": "Architecture & Design",
+                "hero-desc": "Tekton represents a new standard in architecture, where every detail is a symphony.",
                 "hero-cta": "Discover Vision"
             }
         };
@@ -175,17 +247,9 @@
                 if (translations[lang][key]) el.innerText = translations[lang][key];
             });
             document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.id === `lang-${lang}`));
-            document.querySelectorAll('.mobile-lang-btn').forEach(btn => {
-                if(btn.id === `m-lang-${lang}`) {
-                    btn.classList.add('opacity-100', 'underline');
-                    btn.classList.remove('opacity-50');
-                } else {
-                    btn.classList.remove('opacity-100', 'underline');
-                    btn.classList.add('opacity-50');
-                }
-            });
         }
 
+        // MENU LOGIC
         const openBtn = document.getElementById('open-menu');
         const closeBtn = document.getElementById('close-menu');
         const menu = document.getElementById('mobile-menu');
@@ -193,9 +257,27 @@
         openBtn.onclick = () => { menu.classList.replace('hidden', 'flex'); gsap.fromTo(menu, {opacity: 0}, {opacity: 1, duration: 0.4}); };
         closeBtn.onclick = () => { gsap.to(menu, {opacity: 0, duration: 0.4, onComplete: () => menu.classList.replace('flex', 'hidden')}); };
 
+        // POPUP LOGIC
+        const visionModal = document.getElementById('vision-modal');
+        const openModalBtn = document.getElementById('open-vision');
+        const closeModalBtn = document.getElementById('close-modal');
+
+        openModalBtn.onclick = () => {
+            visionModal.style.display = 'flex';
+            gsap.to(visionModal, { opacity: 1, duration: 0.6 });
+            gsap.to(".modal-content", { y: 0, opacity: 1, duration: 0.8, ease: "power4.out" });
+        };
+
+        closeModalBtn.onclick = () => {
+            gsap.to(visionModal, { opacity: 0, duration: 0.4, onComplete: () => {
+                visionModal.style.display = 'none';
+                gsap.set(".modal-content", { y: 30 });
+            }});
+        };
+
+        // LOAD ANIMATIONS
         window.addEventListener('load', () => {
             setLanguage(localStorage.getItem('preferred-lang') || 'sq');
-            
             const tl = gsap.timeline();
             tl.to(".blueprint-grid", { opacity: 1, duration: 1 })
               .to(".tekton-path", { strokeDashoffset: 0, duration: 2, ease: "power2.inOut" })
@@ -205,6 +287,19 @@
                   document.querySelector('.main-wrapper').style.opacity = '1';
               }})
               .to(".hero-fade", { y: 0, opacity: 1, scale: 1, stagger: 0.2, duration: 1.2, ease: "power4.out" });
+
+            gsap.to("#scroll-line", {
+                width: "100px",
+                scrollTrigger: { trigger: "#scroll-line", start: "top 90%" }
+            });
+
+            gsap.to("#monolith-img", {
+                scrollTrigger: {
+                    trigger: "#monolith-img",
+                    start: "top 80%",
+                    onEnter: () => document.getElementById('monolith-img').classList.add('active')
+                }
+            });
         });
     </script>
 </body>
