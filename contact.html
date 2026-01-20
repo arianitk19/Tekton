@@ -55,20 +55,28 @@
 </head>
 <body class="antialiased">
 
-    <div id="mobile-menu" class="fixed inset-0 bg-black z-[200] hidden flex-col items-center justify-center space-y-8 text-2xl uppercase tracking-[0.3em] font-light">
-        <button id="close-menu" class="absolute top-10 right-10 text-sm tracking-ultra" data-key="nav-close">Close</button>
-        
-        <a href="index.html" class="hover:text-[#948677]" data-key="nav-home">Home</a>
-        <a href="projects.html" class="hover:text-[#948677]" data-key="nav-projects">Projects</a>
-        <a href="services.html" class="hover:text-[#948677]" data-key="nav-services">Services</a>
-        <a href="about.html" class="hover:text-[#948677]" data-key="nav-studio">Studio</a>
+<div id="mobile-menu" class="fixed inset-0 z-[200] hidden flex-col items-center justify-center bg-[#000000] space-y-10 text-2xl uppercase tracking-[0.3em] font-light">
+    <button id="close-menu" class="absolute top-10 right-10 text-sm tracking-ultra" data-key="nav-close">Close</button>
+    
+    <nav class="flex flex-col items-center space-y-8">
+        <a href="index.html" class="hover:text-[#948677] transition-colors" data-key="nav-home">Home</a>
+        <a href="projects.html" class="hover:text-[#948677] transition-colors" data-key="nav-projects">Projects</a>
+        <a href="services.html" class="hover:text-[#948677] transition-colors" data-key="nav-services">Services</a>
+        <a href="about.html" class="hover:text-[#948677] transition-colors" data-key="nav-studio">Studio</a>
+    </nav>
 
-        <div class="flex items-center space-x-6 pt-10 border-t border-white/10 w-40 justify-center">
-            <button onclick="setLanguage('sq')" class="mobile-lang-btn text-sm tracking-widest opacity-50 transition-all" id="m-lang-sq">SQ</button>
-            <span class="text-zinc-800">/</span>
-            <button onclick="setLanguage('en')" class="mobile-lang-btn text-sm tracking-widest opacity-50 transition-all" id="m-lang-en">EN</button>
-        </div>
+    <div class="pt-6">
+        <a href="contact.html" class="px-10 py-4 border border-white/20 text-[10px] uppercase tracking-[0.4em] hover:bg-white hover:text-black transition-all duration-500" data-key="nav-talk">
+            Let's Talk
+        </a>
     </div>
+
+    <div class="flex items-center space-x-6 pt-10 border-t border-white/10 w-40 justify-center">
+        <button onclick="setLanguage('sq')" class="mobile-lang-btn text-sm tracking-widest opacity-50 transition-all" id="m-lang-sq">SQ</button>
+        <span class="text-zinc-800">/</span>
+        <button onclick="setLanguage('en')" class="mobile-lang-btn text-sm tracking-widest opacity-50 transition-all" id="m-lang-en">EN</button>
+    </div>
+</div>
 
     <nav class="fixed top-0 w-full z-[100] px-6 md:px-20 py-8 flex justify-between items-center glass-nav">
         <a href="index.html" class="flex items-center space-x-4 group">
@@ -97,7 +105,7 @@
         </div>
 
         <div class="hidden md:block">
-            <a href="contact.html" class="px-8 py-3 bg-white text-black text-[10px] uppercase tracking-widest transition-all" data-key="nav-talk">Contact</a>
+            <a href="contact.html" class="px-8 py-3 border border-white/10 hover:border-white text-[10px] uppercase tracking-widest transition-all" data-key="nav-talk">Let's Talk</a>
         </div>
 
         <button id="open-menu" class="lg:hidden flex flex-col space-y-1.5">
@@ -139,7 +147,7 @@
                     </div>
                     <div>
                         <span class="label-text" data-key="f-subject">Subjekti</span>
-                        <select class="contact-input">
+                        <select class="contact-input bg-black">
                             <option value="" data-key="opt-1">Zgjidhni interesimin</option>
                             <option value="residential" data-key="opt-2">Projekt Banesor</option>
                             <option value="interior" data-key="opt-3">Dizajn Interieri</option>
@@ -166,7 +174,7 @@
         const translations = {
             sq: {
                 "nav-home": "Ballina", "nav-projects": "Projekte", "nav-services": "Shërbime", 
-                "nav-studio": "Studio", "nav-talk": "Kontakt", "nav-close": "Mbyll",
+                "nav-studio": "Studio", "nav-talk": "Bisedojmë", "nav-close": "Mbyll",
                 "sub-logo": "Arkitekturë & Dizajn", "c-title-1": "Le të nisim", "c-title-2": "dialogun.",
                 "c-address": "Adresa", "c-email": "Na shkruani", "f-name": "Emri juaj", "f-mail": "Email Adresa",
                 "f-subject": "Subjekti", "f-msg": "Mesazhi juaj", "f-btn": "Dërgo Mesazhin",
@@ -174,7 +182,7 @@
             },
             en: {
                 "nav-home": "Home", "nav-projects": "Projects", "nav-services": "Services", 
-                "nav-studio": "Studio", "nav-talk": "Contact", "nav-close": "Close",
+                "nav-studio": "Studio", "nav-talk": "Let's Talk", "nav-close": "Close",
                 "sub-logo": "Architecture & Design", "c-title-1": "Let's start", "c-title-2": "the dialogue.",
                 "c-address": "Address", "c-email": "Write to us", "f-name": "Your Name", "f-mail": "Email Address",
                 "f-subject": "Subject", "f-msg": "Your Message", "f-btn": "Send Message",
@@ -184,16 +192,12 @@
 
         function setLanguage(lang) {
             localStorage.setItem('preferred-lang', lang);
-            
             document.querySelectorAll('[data-key]').forEach(el => {
                 const key = el.getAttribute('data-key');
                 if (translations[lang][key]) el.innerText = translations[lang][key];
             });
 
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.id === `lang-${lang}`);
-            });
-
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.id === `lang-${lang}`));
             document.querySelectorAll('.mobile-lang-btn').forEach(btn => {
                 if(btn.id === `m-lang-${lang}`) {
                     btn.classList.add('opacity-100', 'underline');
