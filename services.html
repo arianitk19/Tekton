@@ -23,6 +23,36 @@
         .serif-luxury { font-family: 'Cormorant Garamond', serif; }
         .tracking-ultra { letter-spacing: 0.5em; text-transform: uppercase; font-size: 10px; }
 
+        /* --- MARQUEE TRANSITION SHIRITI --- */
+        .marquee-wrapper {
+            border-top: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--border-light);
+            padding: 25px 0;
+            background: rgba(255,255,255,0.01);
+            overflow: hidden;
+            display: flex;
+        }
+        .marquee-content {
+            display: flex;
+            white-space: nowrap;
+            animation: scroll 40s linear infinite;
+        }
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* ICONS STYLE */
+        .service-svg {
+            width: 45px; height: 45px;
+            margin-bottom: 1.5rem;
+            stroke: var(--gold-muted);
+            fill: none;
+            stroke-width: 1.2;
+            transition: all 0.5s ease;
+        }
+        .reveal:hover .service-svg { stroke: #ffffff; transform: translateY(-5px); }
+
         .glass-nav {
             background: rgba(5, 5, 5, 0.8);
             backdrop-filter: blur(20px);
@@ -35,7 +65,6 @@
         }
         .logo-box:hover { border-color: var(--gold-muted); transform: rotate(45deg); }
 
-        /* --- MOBILE MENU (SOLID BLACK) --- */
         #mobile-menu { background: #000000; }
 
         .lang-btn { opacity: 0.5; transition: opacity 0.3s; cursor: pointer; }
@@ -61,7 +90,6 @@
 
     <div id="mobile-menu" class="fixed inset-0 z-[200] hidden flex-col items-center justify-center space-y-10 text-2xl uppercase tracking-[0.3em] font-light">
         <button id="close-menu" class="absolute top-10 right-10 text-sm tracking-ultra" data-key="nav-close">Close</button>
-        
         <nav class="flex flex-col items-center space-y-8">
             <a href="index.html" class="hover:text-[#948677] transition-colors" data-key="nav-home">Home</a>
             <a href="projects.html" class="hover:text-[#948677] transition-colors" data-key="nav-projects">Projects</a>
@@ -120,60 +148,80 @@
 
     <main class="pt-48">
         <section class="px-6 md:px-20 mb-32">
-            <h1 class="serif-luxury text-6xl md:text-[120px] leading-none mb-10">
-                <span data-key="s-title-1">Ekspertizë</span> <br> <span class="italic font-light opacity-30" data-key="s-title-2">pa kompromis.</span>
+            <h1 class="serif-luxury text-6xl md:text-[120px] leading-none mb-10 overflow-hidden">
+                <span class="block translate-y-full hero-reveal" data-key="s-title-1">Ekspertizë</span> 
+                <span class="block translate-y-full hero-reveal italic font-light opacity-30" data-key="s-title-2">pa kompromis.</span>
             </h1>
             <div class="h-px w-40 bg-zinc-800 mb-10"></div>
         </section>
 
-        <section class="px-6 md:px-20 grid grid-cols-1 lg:grid-cols-2 gap-20">
-            <div class="flex flex-col space-y-8 reveal">
-                <div class="step-circle">01</div>
-                <h2 class="serif-luxury text-5xl" data-key="step1-t">Konsulencë & Konceptim</h2>
-                <p class="text-zinc-500 leading-relaxed font-light" data-key="step1-d">Çdo projekt fillon me një dialog. Ne analizojmë terrenin dhe kërkesat tuaja për të krijuar një skicë vizionare.</p>
-            </div>
-
-            <div class="flex flex-col space-y-8 reveal">
-                <div class="step-circle">02</div>
-                <h2 class="serif-luxury text-5xl" data-key="step2-t">Arkitekturë & Inxhinieri</h2>
-                <p class="text-zinc-500 leading-relaxed font-light" data-key="step2-d">Saktësia teknike është në zemër të TEKTON. Ne hartojmë projekte detalizuese me teknologjinë më të fundit BIM.</p>
-            </div>
-
-            <div class="flex flex-col space-y-8 reveal">
-                <div class="step-circle">03</div>
-                <h2 class="serif-luxury text-5xl" data-key="step3-t">Dizajn i Brendshëm</h2>
-                <p class="text-zinc-500 leading-relaxed font-light" data-key="step3-d">Brendësia është shpirti i hapësirës. Ne kurojmë materiale dhe ndriçim që krijojnë një atmosferë unike.</p>
-            </div>
-
-            <div class="flex flex-col space-y-8 reveal">
-                <div class="step-circle">04</div>
-                <h2 class="serif-luxury text-5xl" data-key="step4-t">Mbikëqyrje & Realizim</h2>
-                <p class="text-zinc-500 leading-relaxed font-light" data-key="step4-d">Vizioni realizohet vetëm me mbikëqyrje strikte. Ne garantojmë cilësinë maksimale në çdo hap të ndërtimit.</p>
+        <section class="marquee-wrapper mb-40">
+            <div class="marquee-content">
+                <span class="mx-12 tracking-ultra text-zinc-600">Archicad BIM Experts</span>
+                <span class="mx-12 tracking-ultra text-zinc-600">Sustainable Design Certified</span>
+                <span class="mx-12 tracking-ultra text-zinc-600">Residential P+12 Masterplans</span>
+                <span class="mx-12 tracking-ultra text-zinc-600">Minimalist Geometry</span>
+                <span class="mx-12 tracking-ultra text-zinc-600">Archicad BIM Experts</span>
+                <span class="mx-12 tracking-ultra text-zinc-600">Sustainable Design Certified</span>
+                <span class="mx-12 tracking-ultra text-zinc-600">Residential P+12 Masterplans</span>
+                <span class="mx-12 tracking-ultra text-zinc-600">Minimalist Geometry</span>
             </div>
         </section>
 
-        <section class="py-40 px-6 md:px-20">
+        <section class="px-6 md:px-20 grid grid-cols-1 lg:grid-cols-2 gap-20 mb-40">
+            <div class="flex flex-col space-y-6 reveal">
+                <svg class="service-svg" viewBox="0 0 24 24"><path d="M3 21h18M3 7l9-4 9 4v10l-9 4-9-4V7z"/></svg>
+                <div class="step-circle">01</div>
+                <h2 class="serif-luxury text-5xl" data-key="step1-t">Master-plane & Koncept</h2>
+                <p class="text-zinc-500 leading-relaxed font-light" data-key="step1-d">Specializuar në zhvillimin e master-planeve komplekse rezidenciale deri në P+12, duke kombinuar gjeometrinë e pastër me funksionalitetin urban.</p>
+            </div>
+
+            <div class="flex flex-col space-y-6 reveal">
+                <svg class="service-svg" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/></svg>
+                <div class="step-circle">02</div>
+                <h2 class="serif-luxury text-5xl" data-key="step2-t">Arkitekturë BIM</h2>
+                <p class="text-zinc-500 leading-relaxed font-light" data-key="step2-d">Saktësi milimetrike përmes teknologjisë BIM në Archicad. Hartojmë modele informacioni ndërtimi për eficiencë dhe kontroll maksimal teknik.</p>
+            </div>
+
+            <div class="flex flex-col space-y-6 reveal">
+                <svg class="service-svg" viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 18l-4-4h8l-4 4zM12 6l4 4H8l4-4z"/></svg>
+                <div class="step-circle">03</div>
+                <h2 class="serif-luxury text-5xl" data-key="step3-t">Sustainable Design</h2>
+                <p class="text-zinc-500 leading-relaxed font-light" data-key="step3-d">Bazuar në certifikimet tona UGREEN, integrojmë dizajnin e qëndrueshëm që rrit eficiencën e energjisë dhe harmoninë me natyrën.</p>
+            </div>
+
+            <div class="flex flex-col space-y-6 reveal">
+                <svg class="service-svg" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <div class="step-circle">04</div>
+                <h2 class="serif-luxury text-5xl" data-key="step4-t">Llogaridhënie & Mbikëqyrje</h2>
+                <p class="text-zinc-500 leading-relaxed font-light" data-key="step4-d">Një histori e provuar e llogaridhënies. Mbikëqyrim çdo fazë të realizimit për të siguruar përputhshmëri 100% me projektin minimalist.</p>
+            </div>
+        </section>
+
+        
+
+        <section class="py-40 px-6 md:px-20 bg-zinc-900/20">
             <div class="text-center mb-20">
                 <span class="tracking-ultra text-zinc-600">Pure Elements</span>
                 <h3 class="serif-luxury text-6xl mt-4 italic" data-key="mat-title">Materialiteti</h3>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="material-box reveal">
-                    <img src="https://images.unsplash.com/photo-1516592653372-b3917d002772?auto=format&fit=crop&q=80&w=1000" alt="Marble">
+                    <img src="Images/concrete.jpg" alt="Beton">
                     <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                        <span class="tracking-ultra bg-black/40 px-4 py-2" data-key="mat-stone">Stone</span>
+                        <span class="tracking-ultra bg-black/40 px-4 py-2" data-key="mat-stone">Beton</span>
                     </div>
                 </div>
                 <div class="material-box mt-12 reveal">
                     <img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&q=80&w=1000" alt="Steel">
                     <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                        <span class="tracking-ultra bg-black/40 px-4 py-2" data-key="mat-steel">Steel</span>
+                        <span class="tracking-ultra bg-black/40 px-4 py-2" data-key="mat-steel">Xham</span>
                     </div>
                 </div>
                 <div class="material-box reveal">
-                    <img src="https://images.unsplash.com/photo-1541604193435-225878990a73?auto=format&fit=crop&q=80&w=1000" alt="Wood">
+                    <img src="Images/wood.jpg" alt="Wood">
                     <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                        <span class="tracking-ultra bg-black/40 px-4 py-2" data-key="mat-wood">Oak</span>
+                        <span class="tracking-ultra bg-black/40 px-4 py-2" data-key="mat-wood">Lis</span>
                     </div>
                 </div>
             </div>
@@ -181,7 +229,7 @@
     </main>
 
     <footer class="py-10 px-6 md:px-20 border-t border-white/5 text-center md:text-left">
-        <p class="text-[10px] tracking-widest text-zinc-600 uppercase">© 2026 TEKTON ARCHITECTS. ALL RIGHTS RESERVED.</p>
+        <p class="text-[10px] tracking-widest text-zinc-600 uppercase">© 2026 TEKTON ARCHITECTURE STUDIO | ALL RIGHTS RESERVED.</p>
     </footer>
 
     <script>
@@ -190,21 +238,21 @@
                 "nav-home": "Ballina", "nav-projects": "Projekte", "nav-services": "Shërbime", 
                 "nav-studio": "Studio", "nav-talk": "Bisedojmë", "nav-close": "Mbyll",
                 "sub-logo": "Arkitekturë & Dizajn", "s-title-1": "Ekspertizë", "s-title-2": "pa kompromis.",
-                "step1-t": "Konsulencë & Konceptim", "step1-d": "Çdo projekt fillon me një dialog. Ne analizojmë terrenin dhe kërkesat tuaja.",
-                "step2-t": "Arkitekturë & Inxhinieri", "step2-d": "Saktësia teknike është në zemër të TEKTON. Ne hartojmë projekte me BIM.",
-                "step3-t": "Dizajn i Brendshëm", "step3-d": "Brendësia është shpirti i hapësirës. Ne kurojmë materiale unikale.",
-                "step4-t": "Mbikëqyrje & Realizim", "step4-d": "Vizioni realizohet vetëm me mbikëqyrje strikte. Ne garantojmë cilësinë.",
-                "mat-title": "Materialiteti", "mat-stone": "Gur", "mat-steel": "Çelik", "mat-wood": "Lis"
+                "step1-t": "Master-plane & Koncept", "step1-d": "Nga shtëpitë individuale te komplekset shumëkatëshe deri në P+12. Krijojmë gjeometri të pastër dhe funksionale.",
+                "step2-t": "Arkitekturë BIM", "step2-d": "Saktësia teknike përmes teknologjisë BIM në Archicad. Hartojmë modele të detajuara për eficiencë maksimale.",
+                "step3-t": "Sustainable Design", "step3-d": "Bazuar në standardet UGREEN, integrojmë dizajnin e qëndrueshëm dhe eficiencën në çdo strukturë.",
+                "step4-t": "Llogaridhënie & Mbikëqyrje", "step4-d": "Mbikëqyrje profesionale për të garantuar që çdo milimetër i projektit të zbatohet me llogaridhënie absolute.",
+                "mat-title": "Materialiteti", "mat-stone": "Beton", "mat-steel": "Xham", "mat-wood": "Lis"
             },
             en: {
                 "nav-home": "Home", "nav-projects": "Projects", "nav-services": "Services", 
                 "nav-studio": "Studio", "nav-talk": "Let's Talk", "nav-close": "Close",
-                "sub-logo": "Architecture & Design", "s-title-1": "Expertise", "s-title-2": "without compromise.",
-                "step1-t": "Consulting & Concept", "step1-d": "Every project begins with a dialogue. We analyze site and requirements.",
-                "step2-t": "Architecture & Engineering", "step2-d": "Technical precision is at the heart of TEKTON. We design with BIM.",
-                "step3-t": "Interior Design", "step3-d": "Interior is the soul of the space. We curate unique materials.",
-                "step4-t": "Supervision & Execution", "step4-d": "The vision is realized only with strict supervision. We guarantee quality.",
-                "mat-title": "Materiality", "mat-stone": "Stone", "mat-steel": "Steel", "mat-wood": "Oak"
+                "sub-logo": "Architecture & Design", "s-title-1": "Expertise", "s-title-2": "uncompromised.",
+                "step1-t": "Master-planning & Concept", "step1-d": "From individual villas to complex multi-story masterplans up to P+12. Pure geometry and function.",
+                "step2-t": "BIM Architecture", "step2-d": "Technical precision via BIM technology in Archicad. Developing detailed models for maximum efficiency.",
+                "step3-t": "Sustainable Design", "step3-d": "Based on UGREEN standards, we integrate sustainability and efficiency into every structure.",
+                "step4-t": "Accountability & Supervision", "step4-d": "Professional supervision ensuring every millimeter of the project is executed with total accountability.",
+                "mat-title": "Materiality", "mat-stone": "Concrete", "mat-steel": "Glass", "mat-wood": "Oak"
             }
         };
 
@@ -215,15 +263,6 @@
                 if (translations[lang][key]) el.innerText = translations[lang][key];
             });
             document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.id === `lang-${lang}`));
-            document.querySelectorAll('.mobile-lang-btn').forEach(btn => {
-                if(btn.id === `m-lang-${lang}`) {
-                    btn.classList.add('opacity-100', 'underline');
-                    btn.classList.remove('opacity-50');
-                } else {
-                    btn.classList.remove('opacity-100', 'underline');
-                    btn.classList.add('opacity-50');
-                }
-            });
         }
 
         const openBtn = document.getElementById('open-menu');
@@ -239,7 +278,7 @@
             setLanguage(localStorage.getItem('preferred-lang') || 'sq');
             
             // Hero Animation
-            gsap.from("h1", { y: 100, opacity: 0, duration: 1.5, ease: "power4.out" });
+            gsap.to(".hero-reveal", { y: 0, duration: 1.5, stagger: 0.3, ease: "power4.out" });
 
             // Scroll Reveals
             gsap.utils.toArray('.reveal').forEach(item => {
