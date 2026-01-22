@@ -19,7 +19,25 @@
             --border-light: rgba(255, 255, 255, 0.05);
         }
 
-        body { background-color: var(--bg); color: var(--text-main); font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
+        body { 
+            background-color: var(--bg); 
+            color: var(--text-main); 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            overflow-x: hidden; 
+        }
+
+        /* Architectural Grid Background */
+        .arch-grid {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 100px 100px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
         .serif-luxury { font-family: 'Cormorant Garamond', serif; }
         .tracking-ultra { letter-spacing: 0.5em; text-transform: uppercase; font-size: 10px; }
 
@@ -28,6 +46,7 @@
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border-light);
         }
+
         .logo-box {
             width: 45px; height: 45px;
             border: 1px solid rgba(255,255,255,0.2);
@@ -38,22 +57,77 @@
         .lang-btn { opacity: 0.5; transition: opacity 0.3s; cursor: pointer; }
         .lang-btn.active { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
 
-        /* --- PROJECT CARDS --- */
-        .project-card { position: relative; overflow: hidden; }
-        .project-image { transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
-        .project-card:hover .project-image { transform: scale(1.05); }
+        /* --- MODERN PROJECT CARDS --- */
+        .project-card { 
+            position: relative; 
+            overflow: hidden; 
+            clip-path: inset(0% 0% 0% 0%);
+            transition: clip-path 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+        }
+        
+        .project-image { 
+            transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1), filter 1s ease;
+            filter: grayscale(100%) brightness(0.7);
+        }
+        
+        .project-card:hover .project-image { 
+            transform: scale(1.1); 
+            filter: grayscale(0%) brightness(1);
+        }
         
         .overlay-info {
-            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
-            opacity: 0; transition: opacity 0.6s ease;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .project-card:hover .overlay-info { opacity: 1; }
+        
+        .project-card:hover .overlay-info { 
+            opacity: 1; 
+            transform: translateY(0);
+        }
 
-        .filter-btn { opacity: 0.4; transition: all 0.4s ease; }
-        .filter-btn.active { opacity: 1; border-bottom: 1px solid white; }
+        .filter-btn { opacity: 0.4; transition: all 0.4s ease; position: relative; }
+        .filter-btn::after {
+            content: '';
+            position: absolute; bottom: -5px; left: 0; width: 0%; height: 1px;
+            background: white; transition: width 0.4s ease;
+        }
+        .filter-btn.active { opacity: 1; }
+        .filter-btn.active::after { width: 100%; }
+
+        /* --- PREZANTIMI I RI (PROJECT MODAL) --- */
+        #project-modal {
+            position: fixed; inset: 0; background: #050505; z-index: 500;
+            display: none; overflow-y: auto; opacity: 0;
+        }
+        .modal-img { width: 100%; opacity: 0; transform: translateY(50px); transition: all 1s ease; }
+
+        /* --- INFINITE MARQUEE --- */
+        .marquee-strip {
+            padding: 60px 0;
+            background: #080808;
+            border-top: 1px solid var(--border-light);
+            overflow: hidden;
+            display: flex;
+        }
+        
+        .marquee-content {
+            display: flex;
+            white-space: nowrap;
+            animation: marquee-scroll 40s linear infinite;
+        }
+
+        @keyframes marquee-scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
     </style>
 </head>
 <body class="antialiased">
+
+<div class="arch-grid"></div>
 
 <div id="mobile-menu" class="fixed inset-0 z-[200] hidden flex-col items-center justify-center bg-[#000000] space-y-10 text-2xl uppercase tracking-[0.3em] font-light">
     <button id="close-menu" class="absolute top-10 right-10 text-sm tracking-ultra" data-key="nav-close">Close</button>
@@ -109,12 +183,12 @@
 
 <main class="pt-48 pb-20 px-6 md:px-20">
     <div class="flex flex-col md:flex-row md:items-end justify-between mb-24 gap-8">
-        <div>
-            <h1 class="serif-luxury text-6xl md:text-[80px] leading-none mb-6 reveal" data-key="p-title">Portfolio</h1>
-            <p class="text-zinc-500 tracking-[0.2em] uppercase text-[10px] reveal" data-key="p-subtitle">Seleksionimi i punëve tona më të mira</p>
+        <div class="overflow-hidden">
+            <h1 class="serif-luxury text-6xl md:text-[90px] leading-none mb-6 gs-reveal" data-key="p-title">Portfolio</h1>
+            <p class="text-zinc-500 tracking-[0.3em] uppercase text-[10px] gs-reveal" data-key="p-subtitle">Seleksionimi i punëve tona më të mira</p>
         </div>
         
-        <div class="flex space-x-8 text-[9px] uppercase tracking-[0.3em] reveal">
+        <div class="flex space-x-8 text-[9px] uppercase tracking-[0.3em] gs-reveal">
             <button class="filter-btn active" data-filter="all" data-key="f-all">Të gjitha</button>
             <button class="filter-btn" data-filter="residential" data-key="f-res">Banesore</button>
             <button class="filter-btn" data-filter="commercial" data-key="f-com">Komerciale</button>
@@ -122,60 +196,78 @@
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-12 gap-10" id="projects-grid">
-        <div class="md:col-span-8 project-card group reveal h-[500px] bg-zinc-900 overflow-hidden" data-category="residential">
-            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=2070" class="project-image w-full h-full object-cover grayscale group-hover:grayscale-0">
-            <div class="overlay-info absolute inset-0 p-10 flex flex-col justify-end">
-                <span class="text-[10px] tracking-widest text-zinc-400 uppercase mb-2">Prishtinë, 2023</span>
-                <h3 class="serif-luxury text-4xl italic">Residence V</h3>
+        <div class="md:col-span-8 project-card gs-reveal-item h-[600px] bg-zinc-900" data-category="residential" onclick="openP('Residence V', 'Një simfoni e betonit dhe xhamit.', ['https://images.unsplash.com/photo-1600585154340-be6161a56a0c'])">
+            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=2070" class="project-image w-full h-full object-cover">
+            <div class="overlay-info absolute inset-0 p-12 flex flex-col justify-end">
+                <div class="flex items-center space-x-4 mb-4">
+                    <span class="w-8 h-px bg-white/50"></span>
+                    <span class="text-[10px] tracking-widest text-zinc-300 uppercase">Prishtinë, 2023</span>
+                </div>
+                <h3 class="serif-luxury text-5xl">Residence V</h3>
+                <p class="text-[9px] tracking-[0.2em] mt-4 opacity-60 uppercase">Elegancë Minimale dhe Strukturë Moderne</p>
             </div>
         </div>
 
-        <div class="md:col-span-4 project-card group reveal h-[500px] bg-zinc-900 overflow-hidden" data-category="commercial">
-            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=2069" class="project-image w-full h-full object-cover grayscale group-hover:grayscale-0">
-            <div class="overlay-info absolute inset-0 p-10 flex flex-col justify-end">
-                <span class="text-[10px] tracking-widest text-zinc-400 uppercase mb-2">Tiranë, 2022</span>
-                <h3 class="serif-luxury text-4xl italic">Black Office</h3>
+        <div class="md:col-span-4 project-card gs-reveal-item h-[600px] bg-zinc-900" data-category="commercial" onclick="openP('Black Office', 'Dizajn elitar per biznese.', ['https://images.unsplash.com/photo-1497366216548-37526070297c'])">
+            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=2069" class="project-image w-full h-full object-cover">
+            <div class="overlay-info absolute inset-0 p-12 flex flex-col justify-end">
+                <span class="text-[10px] tracking-widest text-zinc-300 uppercase mb-4">Tiranë, 2022</span>
+                <h3 class="serif-luxury text-4xl">Black Office</h3>
             </div>
         </div>
 
-        <div class="md:col-span-5 project-card group reveal h-[400px] bg-zinc-900 overflow-hidden" data-category="residential">
-            <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=2071" class="project-image w-full h-full object-cover grayscale group-hover:grayscale-0">
-            <div class="overlay-info absolute inset-0 p-10 flex flex-col justify-end">
-                <span class="text-[10px] tracking-widest text-zinc-400 uppercase mb-2">Dardania, 2023</span>
-                <h3 class="serif-luxury text-4xl italic">The Glass Cube</h3>
+        <div class="md:col-span-5 project-card gs-reveal-item h-[500px] bg-zinc-900" data-category="residential" onclick="openP('The Glass Cube', 'Transparenca si stil jete.', ['https://images.unsplash.com/photo-1613490493576-7fde63acd811'])">
+            <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=2071" class="project-image w-full h-full object-cover">
+            <div class="overlay-info absolute inset-0 p-12 flex flex-col justify-end">
+                <span class="text-[10px] tracking-widest text-zinc-300 uppercase mb-4">Dardania, 2023</span>
+                <h3 class="serif-luxury text-4xl">The Glass Cube</h3>
             </div>
         </div>
 
-        <div class="md:col-span-7 project-card group reveal h-[400px] bg-zinc-900 overflow-hidden" data-category="commercial">
-            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2070" class="project-image w-full h-full object-cover grayscale group-hover:grayscale-0">
-            <div class="overlay-info absolute inset-0 p-10 flex flex-col justify-end">
-                <span class="text-[10px] tracking-widest text-zinc-400 uppercase mb-2">Skopje, 2024</span>
-                <h3 class="serif-luxury text-4xl italic">Axis Tower</h3>
+        <div class="md:col-span-7 project-card gs-reveal-item h-[500px] bg-zinc-900" data-category="commercial" onclick="openP('Axis Tower', 'Lartesia e arkitektures bashkekohore.', ['https://images.unsplash.com/photo-1486406146926-c627a92ad1ab'])">
+            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2070" class="project-image w-full h-full object-cover">
+            <div class="overlay-info absolute inset-0 p-12 flex flex-col justify-end">
+                <span class="text-[10px] tracking-widest text-zinc-300 uppercase mb-4">Skopje, 2024</span>
+                <h3 class="serif-luxury text-4xl">Axis Tower</h3>
             </div>
         </div>
     </div>
 </main>
 
-<footer class="py-10 px-6 md:px-20 border-t border-white/5 text-center">
+<div id="project-modal">
+    <div class="p-8 flex justify-between items-center sticky top-0 bg-black/50 backdrop-blur-lg z-50 border-b border-white/5">
+        <button onclick="closeP()" class="tracking-ultra text-white border border-white/20 px-6 py-2 hover:bg-white hover:text-black transition-all" data-key="nav-close">Close</button>
+        <span class="serif-luxury italic text-xl">Tekton Project View</span>
+    </div>
+    <div class="max-w-4xl mx-auto px-6 py-20 text-center">
+        <h2 id="m-title" class="serif-luxury text-6xl md:text-8xl mb-8"></h2>
+        <p id="m-desc" class="text-zinc-400 text-lg leading-relaxed mb-20"></p>
+        <div id="m-images" class="space-y-12"></div>
+    </div>
+</div>
+
+<div class="marquee-strip">
+    <div class="marquee-content">
+        <span class="mx-10 text-[11px] tracking-[0.8em] uppercase text-[#948677]">Vizioni juaj, Realiteti ynë — Tekton Architects — Arkitekturë që frymëzon</span>
+        <span class="mx-10 text-[11px] tracking-[0.8em] uppercase text-[#948677]">Vizioni juaj, Realiteti ynë — Tekton Architects — Arkitekturë që frymëzon</span>
+    </div>
+</div>
+
+<footer class="py-16 px-6 md:px-20 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
     <p class="text-[10px] tracking-widest text-zinc-600 uppercase">© 2026 TEKTON ARCHITECTS. ALL RIGHTS RESERVED.</p>
+    <div class="flex space-x-8">
+        <a href="#" class="text-[9px] tracking-widest text-zinc-500 hover:text-white transition-colors">INSTAGRAM</a>
+        <a href="#" class="text-[9px] tracking-widest text-zinc-500 hover:text-white transition-colors">LINKEDIN</a>
+        <a href="#" class="text-[9px] tracking-widest text-zinc-500 hover:text-white transition-colors">BEHANCE</a>
+    </div>
 </footer>
 
 <script>
+    gsap.registerPlugin(ScrollTrigger);
+
     const translations = {
-        sq: {
-            "nav-home": "Ballina", "nav-projects": "Projekte", "nav-services": "Shërbime", 
-            "nav-studio": "Studio", "nav-talk": "Bisedojmë", "nav-close": "Mbyll",
-            "sub-logo": "Arkitekturë & Dizajn", "p-title": "Portfolio", 
-            "p-subtitle": "Seleksionimi i punëve tona më të mira", "f-all": "Të gjitha",
-            "f-res": "Banesore", "f-com": "Komerciale"
-        },
-        en: {
-            "nav-home": "Home", "nav-projects": "Projects", "nav-services": "Services", 
-            "nav-studio": "Studio", "nav-talk": "Let's Talk", "nav-close": "Close",
-            "sub-logo": "Architecture & Design", "p-title": "Portfolio", 
-            "p-subtitle": "Selection of our best works", "f-all": "All",
-            "f-res": "Residential", "f-com": "Commercial"
-        }
+        sq: { "nav-home": "Ballina", "nav-projects": "Projekte", "nav-services": "Shërbime", "nav-studio": "Studio", "nav-talk": "Bisedojmë", "nav-close": "Mbyll", "sub-logo": "Arkitekturë & Dizajn", "p-title": "Portfolio", "p-subtitle": "Seleksionimi i punëve tona më të mira", "f-all": "Të gjitha", "f-res": "Banesore", "f-com": "Komerciale" },
+        en: { "nav-home": "Home", "nav-projects": "Projects", "nav-services": "Services", "nav-studio": "Studio", "nav-talk": "Let's Talk", "nav-close": "Close", "sub-logo": "Architecture & Design", "p-title": "Portfolio", "p-subtitle": "Selection of our best works", "f-all": "All", "f-res": "Residential", "f-com": "Commercial" }
     };
 
     function setLanguage(lang) {
@@ -185,23 +277,47 @@
             if (translations[lang][key]) el.innerText = translations[lang][key];
         });
         document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.id === `lang-${lang}`));
-        document.querySelectorAll('.mobile-lang-btn').forEach(btn => {
-            btn.classList.toggle('opacity-100', btn.id === `m-lang-${lang}`);
-            btn.classList.toggle('underline', btn.id === `m-lang-${lang}`);
-        });
     }
+
+    // MODAL LOGIC
+    function openP(title, desc, imgs) {
+        const modal = document.getElementById('project-modal');
+        document.getElementById('m-title').innerText = title;
+        document.getElementById('m-desc').innerText = desc;
+        const container = document.getElementById('m-images');
+        container.innerHTML = '';
+        imgs.forEach(s => {
+            const i = document.createElement('img');
+            i.src = s; i.className = "modal-img";
+            container.appendChild(i);
+        });
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+        gsap.to(modal, { opacity: 1, duration: 0.5 });
+        gsap.to(".modal-img", { opacity: 1, y: 0, stagger: 0.2, duration: 0.8 });
+    }
+
+    function closeP() {
+        const modal = document.getElementById('project-modal');
+        gsap.to(modal, { opacity: 0, duration: 0.4, onComplete: () => {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }});
+    }
+
+    window.addEventListener('load', () => {
+        setLanguage(localStorage.getItem('preferred-lang') || 'sq');
+        gsap.from(".gs-reveal", { y: 60, opacity: 0, duration: 1.2, stagger: 0.2, ease: "power4.out" });
+        gsap.utils.toArray(".gs-reveal-item").forEach((item) => {
+            gsap.from(item, { scrollTrigger: { trigger: item, start: "top 85%" }, y: 100, opacity: 0, duration: 1.2, ease: "power3.out" });
+        });
+    });
 
     const openBtn = document.getElementById('open-menu');
     const closeBtn = document.getElementById('close-menu');
     const menu = document.getElementById('mobile-menu');
-
-    openBtn.onclick = () => { menu.classList.replace('hidden', 'flex'); gsap.fromTo(menu, {opacity: 0}, {opacity: 1, duration: 0.4}); };
-    closeBtn.onclick = () => { gsap.to(menu, {opacity: 0, duration: 0.4, onComplete: () => menu.classList.replace('flex', 'hidden')}); };
-
-    window.addEventListener('load', () => {
-        setLanguage(localStorage.getItem('preferred-lang') || 'sq');
-        gsap.from(".reveal", { y: 40, opacity: 0, duration: 1, stagger: 0.15, ease: "power3.out" });
-    });
+    openBtn.onclick = () => { menu.classList.replace('hidden', 'flex'); gsap.fromTo(menu, {opacity: 0}, {opacity: 1, duration: 0.5}); };
+    closeBtn.onclick = () => { gsap.to(menu, {opacity: 0, duration: 0.5, onComplete: () => menu.classList.replace('flex', 'hidden')}); };
 </script>
 </body>
 </html>
