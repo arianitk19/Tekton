@@ -2,13 +2,16 @@
 <html lang="sq" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>TEKTON | Superior Architectural Excellence</title>
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="TEKTON">
     <meta name="theme-color" content="#050505">
+    
+    <link rel="apple-touch-icon" href="icon-512.png">
+    <link rel="icon" type="image/png" href="icon-512.png">
     <link rel="manifest" href="manifest.json">
     
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;1,300&family=Plus+Jakarta+Sans:wght@200;300;400;500&display=swap" rel="stylesheet">
@@ -205,7 +208,7 @@
                     <span class="tracking-ultra text-[#948677]">01. Philosophy</span>
                     <h2 class="serif-luxury text-4xl md:text-6xl italic leading-tight">Më pak është <br> Monumentale.</h2>
                     <p class="text-zinc-500 max-w-sm leading-relaxed text-sm md:text-base">
-                        Ne besojmë se bukuria e vërtetë fshihet në thjeshtësinë radikale. Çdo vijë që vizatojmë ka një qëllim, çdo hapësirë që krijojmë ka një frymëmarrje.
+                        Ne besojmë se bukuria e vërtetë fshihet në thjeshtësinë radikale. Çdo vijë që vizatojmë ka një qëllim.
                     </p>
                     <div class="pt-4">
                         <div class="w-full h-px bg-white/10 relative">
@@ -224,12 +227,10 @@
     <script>
         gsap.registerPlugin(ScrollTrigger);
 
-        // SERVICE WORKER REGISTRATION (Për Aplikacionin)
+        // Service Worker Reg për Aplikacion
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js').catch(() => {
-                    console.log("PWA mode ready.");
-                });
+                navigator.serviceWorker.register('sw.js').catch(() => {});
             });
         }
 
@@ -263,8 +264,8 @@
         const closeBtn = document.getElementById('close-menu');
         const menu = document.getElementById('mobile-menu');
 
-        openBtn.onclick = () => { menu.classList.replace('hidden', 'flex'); gsap.fromTo(menu, {opacity: 0}, {opacity: 1, duration: 0.4}); };
-        closeBtn.onclick = () => { gsap.to(menu, {opacity: 0, duration: 0.4, onComplete: () => menu.classList.replace('flex', 'hidden')}); };
+        openBtn.onclick = () => { menu.classList.replace('hidden', 'flex'); gsap.fromTo(menu, {opacity: 1}, {duration: 0.4}); };
+        closeBtn.onclick = () => { menu.classList.replace('flex', 'hidden'); };
 
         const visionModal = document.getElementById('vision-modal');
         const openModalBtn = document.getElementById('open-vision');
