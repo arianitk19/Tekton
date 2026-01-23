@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="sq" class="scroll-smooth">
 <head>
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#050505">
+    
+    <link rel="apple-touch-icon" href="https://img.icons8.com/ios-filled/512/ffffff/architecture.png">
+    <link rel="icon" type="image/png" href="https://img.icons8.com/ios-filled/512/948677/architecture.png">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TEKTON | Superior Architectural Excellence</title>
@@ -84,9 +92,27 @@
         .reveal-box { overflow: hidden; position: relative; }
         .reveal-box img { transform: scale(1.2); transition: transform 2.5s cubic-bezier(0.16, 1, 0.3, 1); }
         .reveal-box.active img { transform: scale(1); }
+
+        /* 2. OPSION SHTESË PËR MODIN PROFESIONAL */
+        #install-app-btn {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            z-index: 99;
+            background: #948677;
+            color: black;
+            padding: 10px 20px;
+            font-size: 9px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            border-radius: 2px;
+            display: none;
+        }
     </style>
 </head>
 <body class="antialiased">
+
+    <button id="install-app-btn">INSTALONI APLIKACIONIN</button>
 
     <div id="preloader">
         <div class="blueprint-grid"></div>
@@ -142,7 +168,6 @@
                 <a href="about.html" class="tracking-ultra hover:text-white transition-all" data-key="nav-studio">Studio</a>
                 <div class="flex items-center space-x-3 ml-4 border-l border-white/10 pl-6">
                     <button onclick="setLanguage('sq')" id="lang-sq" class="lang-btn text-[10px]">SQ</button>
-                    <span class="text-zinc-700">/</span>
                     <button onclick="setLanguage('en')" id="lang-en" class="lang-btn text-[10px]">EN</button>
                 </div>
             </div>
@@ -299,6 +324,27 @@
                     start: "top 80%",
                     onEnter: () => document.getElementById('monolith-img').classList.add('active')
                 }
+            });
+        });
+
+        // 3. LOGJIKA E INSTALIMIT SI APP (PWA LOGIC)
+        let deferredPrompt;
+        const installBtn = document.getElementById('install-app-btn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBtn.style.display = 'block';
+        });
+
+        installBtn.addEventListener('click', () => {
+            installBtn.style.display = 'none';
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('User accepted the install prompt');
+                }
+                deferredPrompt = null;
             });
         });
     </script>
