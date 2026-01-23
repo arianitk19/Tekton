@@ -7,8 +7,9 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#050505">
     
-    <link rel="apple-touch-icon" href="https://img.icons8.com/ios-filled/512/ffffff/architecture.png">
-    <link rel="icon" type="image/png" href="https://img.icons8.com/ios-filled/512/ffffff/architecture.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://img.icons8.com/ios-filled/512/ffffff/architecture.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://img.icons8.com/ios-filled/50/ffffff/architecture.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="https://img.icons8.com/ios-filled/192/ffffff/architecture.png">
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -34,12 +35,11 @@
             font-family: 'Plus Jakarta Sans', sans-serif; 
             overflow-x: hidden; 
             margin: 0;
-            -webkit-tap-highlight-color: transparent; /* Optimizim për App */
+            -webkit-tap-highlight-color: transparent;
         }
         .serif-luxury { font-family: 'Cormorant Garamond', serif; }
         .tracking-ultra { letter-spacing: 0.5em; text-transform: uppercase; font-size: 10px; }
 
-        /* --- NAV STYLE (ORIGINAL) --- */
         .glass-nav {
             background: rgba(5, 5, 5, 0.8);
             backdrop-filter: blur(20px);
@@ -55,12 +55,10 @@
         .lang-btn { opacity: 0.5; transition: opacity 0.3s; cursor: pointer; }
         .lang-btn.active { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
 
-        /* --- PRELOADER --- */
         #preloader { position: fixed; inset: 0; background: #000; z-index: 5000; display: flex; align-items: center; justify-content: center; }
         .tekton-path { fill: none; stroke: #ffffff; stroke-width: 0.7; stroke-dasharray: 1000; stroke-dashoffset: 1000; }
         .blueprint-grid { position: absolute; inset: 0; background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 30px 30px; opacity: 0; }
 
-        /* --- MOBILE MENU --- */
         #mobile-menu { background: #000000; }
         .mobile-lang-btn { opacity: 0.5; transition: all 0.3s; }
         .mobile-lang-btn.active { opacity: 1; border-bottom: 1px solid white; }
@@ -70,7 +68,6 @@
         @media (min-width: 768px) { .responsive-img { aspect-ratio: 16/9; } }
         .parallax-frame { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 92%); border: 1px solid rgba(255,255,255,0.05); }
 
-        /* --- POPUP STYLES --- */
         #vision-modal {
             display: none;
             position: fixed;
@@ -96,12 +93,10 @@
 
         @media (min-width: 768px) { .modal-content { padding: 70px; } }
 
-        /* --- MONOLITH SECTION --- */
         .reveal-box { overflow: hidden; position: relative; }
         .reveal-box img { transform: scale(1.2); transition: transform 2.5s cubic-bezier(0.16, 1, 0.3, 1); }
         .reveal-box.active img { transform: scale(1); }
 
-        /* --- SMART APP BANNER (SHTESË PROFESIONALE) --- */
         #app-install-prompt {
             position: fixed;
             bottom: 20px;
@@ -286,7 +281,6 @@
             document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.id === `lang-${lang}`));
         }
 
-        // MENU LOGIC
         const openBtn = document.getElementById('open-menu');
         const closeBtn = document.getElementById('close-menu');
         const menu = document.getElementById('mobile-menu');
@@ -294,7 +288,6 @@
         openBtn.onclick = () => { menu.classList.replace('hidden', 'flex'); gsap.fromTo(menu, {opacity: 0}, {opacity: 1, duration: 0.4}); };
         closeBtn.onclick = () => { gsap.to(menu, {opacity: 0, duration: 0.4, onComplete: () => menu.classList.replace('flex', 'hidden')}); };
 
-        // POPUP LOGIC
         const visionModal = document.getElementById('vision-modal');
         const openModalBtn = document.getElementById('open-vision');
         const closeModalBtn = document.getElementById('close-modal');
@@ -312,7 +305,6 @@
             }});
         };
 
-        // LOAD ANIMATIONS
         window.addEventListener('load', () => {
             setLanguage(localStorage.getItem('preferred-lang') || 'sq');
             const tl = gsap.timeline();
@@ -322,6 +314,9 @@
                   document.getElementById('preloader').style.display = 'none';
                   document.querySelector('.main-wrapper').style.visibility = 'visible';
                   document.querySelector('.main-wrapper').style.opacity = '1';
+                  
+                  // KËRKESA PËR NOTIFICATIONS PAS PRELOADER-IT
+                  requestNotificationPermission();
               }})
               .to(".hero-fade", { y: 0, opacity: 1, scale: 1, stagger: 0.2, duration: 1.2, ease: "power4.out" });
 
@@ -339,7 +334,6 @@
             });
         });
 
-        // APP INSTALL LOGIC
         let deferredPrompt;
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
@@ -355,6 +349,45 @@
                 }
             });
         };
+
+        // --- PUSH NOTIFICATIONS LOGIC ---
+        async function requestNotificationPermission() {
+            if (!("Notification" in window)) return;
+            
+            if (Notification.permission === "default") {
+                const permission = await Notification.requestPermission();
+                if (permission === "granted") {
+                    showWelcomeNotification();
+                }
+            }
+        }
+
+        function showWelcomeNotification() {
+            if (Notification.permission === "granted") {
+                navigator.serviceWorker.ready.then(registration => {
+                    registration.showNotification("TEKTON Architecture", {
+                        body: "Mirësevini në botën e ekselencës arkitekturore.",
+                        icon: "https://img.icons8.com/ios-filled/192/000000/architecture.png",
+                        badge: "https://img.icons8.com/ios-filled/96/000000/architecture.png"
+                    });
+                });
+            }
+        }
+
+        // Regjistrimi i Service Worker-it (pa skedar të jashtëm)
+        if ('serviceWorker' in navigator) {
+            const swCode = `
+                self.addEventListener('install', (e) => self.skipWaiting());
+                self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
+                self.addEventListener('push', (e) => {
+                    const data = e.data ? e.data.text() : 'Njoftim i ri nga Tekton';
+                    e.waitUntil(self.registration.showNotification('TEKTON', { body: data }));
+                });
+            `;
+            const blob = new Blob([swCode], { type: 'application/javascript' });
+            const swUrl = URL.createObjectURL(blob);
+            navigator.serviceWorker.register(swUrl);
+        }
     </script>
 </body>
 </html>
