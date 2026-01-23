@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html lang="sq" class="scroll-smooth">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TEKTON | Superior Architectural Excellence</title>
+
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="TEKTON">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#050505">
     
-    <link rel="apple-touch-icon" href="https://img.icons8.com/ios-filled/512/ffffff/architecture.png">
     <link rel="icon" type="image/png" sizes="192x192" href="https://img.icons8.com/ios-filled/192/ffffff/architecture.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="https://img.icons8.com/ios-filled/512/ffffff/architecture.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://img.icons8.com/ios-filled/180/ffffff/architecture.png">
+    <link rel="apple-touch-icon" href="https://img.icons8.com/ios-filled/512/ffffff/architecture.png">
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TEKTON | Superior Architectural Excellence</title>
-    
+    <link rel="manifest" href='data:application/manifest+json,{"name":"TEKTON","short_name":"TEKTON","start_url":"/","display":"standalone","background_color":"#050505","theme_color":"#050505","icons":[{"src":"https://img.icons8.com/ios-filled/192/ffffff/architecture.png","sizes":"192x192","type":"image/png"},{"src":"https://img.icons8.com/ios-filled/512/ffffff/architecture.png","sizes":"512x512","type":"image/png"}]}'>
+
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;1,300&family=Plus+Jakarta+Sans:wght@200;300;400;500&display=swap" rel="stylesheet">
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -40,7 +42,6 @@
         .serif-luxury { font-family: 'Cormorant Garamond', serif; }
         .tracking-ultra { letter-spacing: 0.5em; text-transform: uppercase; font-size: 10px; }
 
-        /* --- NAV STYLE (ORIGINAL) --- */
         .glass-nav {
             background: rgba(5, 5, 5, 0.8);
             backdrop-filter: blur(20px);
@@ -56,12 +57,10 @@
         .lang-btn { opacity: 0.5; transition: opacity 0.3s; cursor: pointer; }
         .lang-btn.active { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
 
-        /* --- PRELOADER --- */
         #preloader { position: fixed; inset: 0; background: #000; z-index: 5000; display: flex; align-items: center; justify-content: center; }
         .tekton-path { fill: none; stroke: #ffffff; stroke-width: 0.7; stroke-dasharray: 1000; stroke-dashoffset: 1000; }
         .blueprint-grid { position: absolute; inset: 0; background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 30px 30px; opacity: 0; }
 
-        /* --- MOBILE MENU --- */
         #mobile-menu { background: #000000; }
         .mobile-lang-btn { opacity: 0.5; transition: all 0.3s; }
         .mobile-lang-btn.active { opacity: 1; border-bottom: 1px solid white; }
@@ -71,7 +70,6 @@
         @media (min-width: 768px) { .responsive-img { aspect-ratio: 16/9; } }
         .parallax-frame { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 92%); border: 1px solid rgba(255,255,255,0.05); }
 
-        /* --- POPUP STYLES --- */
         #vision-modal {
             display: none;
             position: fixed;
@@ -97,12 +95,10 @@
 
         @media (min-width: 768px) { .modal-content { padding: 70px; } }
 
-        /* --- MONOLITH SECTION --- */
         .reveal-box { overflow: hidden; position: relative; }
         .reveal-box img { transform: scale(1.2); transition: transform 2.5s cubic-bezier(0.16, 1, 0.3, 1); }
         .reveal-box.active img { transform: scale(1); }
 
-        /* --- SMART APP BANNER --- */
         #app-install-prompt {
             position: fixed;
             bottom: 20px;
@@ -122,7 +118,6 @@
             cursor: pointer;
         }
 
-        /* --- NOTIFICATION BUTTON --- */
         #notify-btn {
             display: inline-block;
             margin-top: 20px;
@@ -133,6 +128,7 @@
             letter-spacing: 0.3em;
             text-transform: uppercase;
             transition: all 0.3s ease;
+            cursor: pointer;
         }
         #notify-btn:hover { background: #948677; color: black; }
     </style>
@@ -259,7 +255,7 @@
                     <p class="text-zinc-500 max-w-sm leading-relaxed text-sm md:text-base">
                         Ne besojmë se bukuria e vërtetë fshihet në thjeshtësinë radikale. Çdo vijë që vizatojmë ka një qëllim, çdo hapësirë që krijojmë ka një frymëmarrje.
                     </p>
-                    <button id="notify-btn">Njoftimet: OFF</button>
+                    <button id="notify-btn">Aktivizo Njoftimet</button>
                     <div class="pt-4">
                         <div class="w-full h-px bg-white/10 relative">
                             <div id="scroll-line" class="absolute left-0 top-0 h-full bg-[#948677] w-0"></div>
@@ -336,7 +332,6 @@
                   document.getElementById('preloader').style.display = 'none';
                   document.querySelector('.main-wrapper').style.visibility = 'visible';
                   document.querySelector('.main-wrapper').style.opacity = '1';
-                  checkNotificationStatus();
               }})
               .to(".hero-fade", { y: 0, opacity: 1, scale: 1, stagger: 0.2, duration: 1.2, ease: "power4.out" });
 
@@ -354,7 +349,18 @@
             });
         });
 
-        // APP INSTALL
+        // NOTIFICATION LOGIC
+        const nBtn = document.getElementById('notify-btn');
+        nBtn.onclick = async () => {
+            if (!("Notification" in window)) return;
+            const res = await Notification.requestPermission();
+            if (res === "granted") {
+                nBtn.innerText = "Njoftimet e Aktivizuara";
+                new Notification("TEKTON", { body: "Ju do të njoftoheni për projektet e reja.", icon: "https://img.icons8.com/ios-filled/192/ffffff/architecture.png" });
+            }
+        };
+
+        // INSTALL LOGIC
         let deferredPrompt;
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
@@ -363,31 +369,17 @@
         });
 
         document.getElementById('app-install-prompt').onclick = () => {
-            deferredPrompt.prompt();
-            deferredPrompt.userChoice.then((result) => {
-                if (result.outcome === 'accepted') document.getElementById('app-install-prompt').style.display = 'none';
-            });
-        };
-
-        // NOTIFICATIONS
-        const nBtn = document.getElementById('notify-btn');
-        function checkNotificationStatus() {
-            if ("Notification" in window && Notification.permission === "granted") {
-                nBtn.innerText = "Njoftimet: ON";
-            }
-        }
-
-        nBtn.onclick = async () => {
-            if (!("Notification" in window)) return alert("Ky shfletues nuk mbështet njoftimet.");
-            const permission = await Notification.requestPermission();
-            if (permission === "granted") {
-                nBtn.innerText = "Njoftimet: ON";
-                new Notification("TEKTON", { body: "Njoftimet u aktivizuan me sukses!", icon: "https://img.icons8.com/ios-filled/192/ffffff/architecture.png" });
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then(() => {
+                    document.getElementById('app-install-prompt').style.display = 'none';
+                });
             }
         };
 
+        // REGISTER SERVICE WORKER FOR PWA & PUSH
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('data:application/javascript,' + encodeURIComponent('self.addEventListener("fetch", function(e) { e.respondWith(fetch(e.request)); }); self.addEventListener("push", function(e) { self.registration.showNotification("TEKTON", {body: "Përditësim i ri!"}); });'));
+            navigator.serviceWorker.register('data:application/javascript,' + encodeURIComponent('self.addEventListener("fetch", function(e) { e.respondWith(fetch(e.request)); }); self.addEventListener("push", function(e) { self.registration.showNotification("TEKTON", {body: "Përditësim i ri arkitekturor!"}); });'));
         }
     </script>
 </body>
