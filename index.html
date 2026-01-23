@@ -2,19 +2,19 @@
 <html lang="sq" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>TEKTON | Superior Architectural Excellence</title>
-    
+
     <meta name="theme-color" content="#050505">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="TEKTON">
     
-    <link rel="apple-touch-icon" href="https://img.icons8.com/ios-filled/512/ffffff/architecture.png">
-    <link rel="icon" type="image/png" href="https://img.icons8.com/ios-filled/512/ffffff/architecture.png">
+    <link rel="apple-touch-icon" href="https://img.icons8.com/ios-filled/512/ffffff/structural.png">
+    <link rel="icon" type="image/png" href="https://img.icons8.com/ios-filled/512/ffffff/structural.png">
 
-    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIlRFS1RPTiIsCiAgInNob3J0X25hbWUiOiAiVEVLVE9OIiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMwNTA1MDUiLAogICJ0aGVtZV9jb2xvciI6ICIjMDUwNTA1IiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiaHR0cHM6Ly9pbWcuaWNvbnM4LmNvbS9pb3MtZmlsbGVkLzUxMi9mZmZmZmYvYXJjaGl0ZWN0dXJlLnBuZyIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIiwKICAgICAgInB1cnBvc2UiOiAiYW55IG1hc2thYmxlIgogICAgfQogIF0KfQ==">
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIlRFS1RPTiBBcmNoaXRlY3R1cmUiLAogICJzaG9ydF9uYW1lIjogIlRFS1RPTiIsCiAgInN0YXJ0X3VybIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMwNTA1MDUiLAogICJ0aGVtZV9jb2xvciI6ICIjMDUwNTA1IiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiaHR0cHM6Ly9pbWcuaWNvbnM4LmNvbS9pb3MtZmlsbGVkLzUxMi9mZmZmZmYvc3RydWN0dXJhbC5wbmciLAogICAgICAic2l6ZXMiOiAiNTEyeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIsCiAgICAgICJwdXJwb3NlIjogImFueSBtYXNrYWJsZSIKICAgIH0KICBdCn0=">
 
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;1,300&family=Plus+Jakarta+Sans:wght@200;300;400;500&display=swap" rel="stylesheet">
 
@@ -200,8 +200,8 @@
                             <span class="tracking-ultra" data-key="hero-cta">Discover Vision</span>
                         </button>
 
-                        <a href="https://pdfelementcloud.wondershare.com/share/review/V55qsdQ24HQjdeGySt1Pgeh1s_YT_MzqchA3wA-xQMdfZS2Za0-xAE_Uiw-9OT5FT7U36q5AiVw0SBoND0XoLnuwogQh_xlSovyKEmOVW-s" 
-                           target="_blank" 
+                        <a href="https://pdfelementcloud.wondershare.com/share/review/V55qsdQ24HQjdeGySt1Pgeh1s_YT_MzqchA3wA-xQMdfZS2Za0-xAE_Uiw-9OT5FT7U36q5AiVw0SBoND0XoLnuwogQh_xlSovyKEmOVW-s"
+                           target="_blank"
                            class="flex items-center space-x-4 group">
                             <div class="w-12 h-12 rounded-full border border-[#948677] flex items-center justify-center group-hover:bg-[#948677] transition-all duration-500 shadow-[0_0_15px_rgba(148,134,119,0.3)]">
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" class="stroke-[#948677] group-hover:stroke-black transition-colors" stroke-width="1.5">
@@ -248,21 +248,16 @@
     <script>
         gsap.registerPlugin(ScrollTrigger);
 
-        // PWA SERVICE WORKER ACTIVATION
+        // --- PWA SERVICE WORKER REGISTRATION ---
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 const swCode = `
-                    const cacheName = 'tekton-v1';
-                    self.addEventListener('install', e => {
-                        e.waitUntil(caches.open(cacheName).then(cache => cache.addAll(['./'])));
-                    });
-                    self.addEventListener('fetch', e => {
-                        e.respondWith(caches.match(e.request).then(res => res || fetch(e.request)));
-                    });
+                    self.addEventListener('install', e => e.waitUntil(caches.open('tekton-v1').then(c => c.addAll(['/']))));
+                    self.addEventListener('fetch', e => e.respondWith(caches.match(e.request).then(r => r || fetch(e.request))));
                 `;
-                const blob = new Blob([swCode], {type: 'text/javascript'});
+                const blob = new Blob([swCode], { type: 'text/javascript' });
                 const swUrl = URL.createObjectURL(blob);
-                navigator.serviceWorker.register(swUrl).catch(err => console.log('SW failed', err));
+                navigator.serviceWorker.register(swUrl).catch(err => console.log('SW error', err));
             });
         }
 
@@ -292,6 +287,7 @@
             document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.id === `lang-${lang}`));
         }
 
+        // MENU LOGIC
         const openBtn = document.getElementById('open-menu');
         const closeBtn = document.getElementById('close-menu');
         const menu = document.getElementById('mobile-menu');
@@ -299,6 +295,7 @@
         openBtn.onclick = () => { menu.classList.replace('hidden', 'flex'); gsap.fromTo(menu, {opacity: 0}, {opacity: 1, duration: 0.4}); };
         closeBtn.onclick = () => { gsap.to(menu, {opacity: 0, duration: 0.4, onComplete: () => menu.classList.replace('flex', 'hidden')}); };
 
+        // POPUP LOGIC
         const visionModal = document.getElementById('vision-modal');
         const openModalBtn = document.getElementById('open-vision');
         const closeModalBtn = document.getElementById('close-modal');
@@ -316,6 +313,7 @@
             }});
         };
 
+        // LOAD ANIMATIONS
         window.addEventListener('load', () => {
             setLanguage(localStorage.getItem('preferred-lang') || 'sq');
             const tl = gsap.timeline();
