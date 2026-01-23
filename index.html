@@ -2,20 +2,17 @@
 <html lang="sq" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TEKTON | Superior Architectural Excellence</title>
-
+    
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="TEKTON">
-    <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#050505">
+    <link rel="manifest" href="manifest.json">
     
-    <link rel="icon" type="image/png" sizes="192x192" href="https://img.icons8.com/ios-filled/192/ffffff/modern-house.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://img.icons8.com/ios-filled/180/ffffff/modern-house.png">
-    <link rel="manifest" href='data:application/manifest+json,{"name":"TEKTON","short_name":"TEKTON","start_url":"/","display":"standalone","background_color":"#050505","theme_color":"#050505","icons":[{"src":"https://img.icons8.com/ios-filled/192/ffffff/modern-house.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},{"src":"https://img.icons8.com/ios-filled/512/ffffff/modern-house.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}]}'>
-
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;1,300&family=Plus+Jakarta+Sans:wght@200;300;400;500&display=swap" rel="stylesheet">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
@@ -28,14 +25,7 @@
             --border-light: rgba(255,255,255,0.03);
         }
 
-        body { 
-            background-color: var(--bg); 
-            color: var(--text-main); 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            overflow-x: hidden; 
-            margin: 0;
-            -webkit-tap-highlight-color: transparent;
-        }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; margin: 0; }
         .serif-luxury { font-family: 'Cormorant Garamond', serif; }
         .tracking-ultra { letter-spacing: 0.5em; text-transform: uppercase; font-size: 10px; }
 
@@ -95,44 +85,9 @@
         .reveal-box { overflow: hidden; position: relative; }
         .reveal-box img { transform: scale(1.2); transition: transform 2.5s cubic-bezier(0.16, 1, 0.3, 1); }
         .reveal-box.active img { transform: scale(1); }
-
-        #app-install-prompt {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 2000;
-            background: white;
-            color: black;
-            padding: 12px 24px;
-            border-radius: 50px;
-            font-size: 10px;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            font-weight: bold;
-            display: none;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            cursor: pointer;
-        }
-
-        #notify-btn {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 20px;
-            border: 1px solid rgba(148, 134, 119, 0.5);
-            color: #948677;
-            font-size: 9px;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        #notify-btn:hover { background: #948677; color: black; }
     </style>
 </head>
 <body class="antialiased">
-
-    <div id="app-install-prompt">Shto në Home Screen</div>
 
     <div id="preloader">
         <div class="blueprint-grid"></div>
@@ -171,8 +126,10 @@
         <nav class="fixed top-0 w-full z-[100] px-6 md:px-20 py-8 flex justify-between items-center glass-nav">
             <a href="index.html" class="flex items-center space-x-4 group">
                 <div class="logo-box flex items-center justify-center">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5">
-                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L2 22H22L12 2Z" stroke="white" stroke-width="1.5" stroke-linejoin="bevel"/>
+                        <path d="M12 2V22" stroke="white" stroke-width="0.5" stroke-dasharray="2 2"/>
+                        <path d="M7 15H17" stroke="#948677" stroke-width="1.5"/>
                     </svg>
                 </div>
                 <div class="flex flex-col">
@@ -221,9 +178,7 @@
                             <span class="tracking-ultra" data-key="hero-cta">Discover Vision</span>
                         </button>
 
-                        <a href="https://pdfelementcloud.wondershare.com/share/review/V55qsdQ24HQjdeGySt1Pgeh1s_YT_MzqchA3wA-xQMdfZS2Za0-xAE_Uiw-9OT5FT7U36q5AiVw0SBoND0XoLnuwogQh_xlSovyKEmOVW-s" 
-                           target="_blank" 
-                           class="flex items-center space-x-4 group">
+                        <a href="https://pdfelementcloud.wondershare.com/share/review/..." target="_blank" class="flex items-center space-x-4 group">
                             <div class="w-12 h-12 rounded-full border border-[#948677] flex items-center justify-center group-hover:bg-[#948677] transition-all duration-500 shadow-[0_0_15px_rgba(148,134,119,0.3)]">
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" class="stroke-[#948677] group-hover:stroke-black transition-colors" stroke-width="1.5">
                                     <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
@@ -252,7 +207,6 @@
                     <p class="text-zinc-500 max-w-sm leading-relaxed text-sm md:text-base">
                         Ne besojmë se bukuria e vërtetë fshihet në thjeshtësinë radikale. Çdo vijë që vizatojmë ka një qëllim, çdo hapësirë që krijojmë ka një frymëmarrje.
                     </p>
-                    <button id="notify-btn">Aktivizo Njoftimet</button>
                     <div class="pt-4">
                         <div class="w-full h-px bg-white/10 relative">
                             <div id="scroll-line" class="absolute left-0 top-0 h-full bg-[#948677] w-0"></div>
@@ -269,6 +223,15 @@
 
     <script>
         gsap.registerPlugin(ScrollTrigger);
+
+        // SERVICE WORKER REGISTRATION (Për Aplikacionin)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js').catch(() => {
+                    console.log("PWA mode ready.");
+                });
+            });
+        }
 
         const translations = {
             sq: {
@@ -345,20 +308,6 @@
                 }
             });
         });
-
-        const nBtn = document.getElementById('notify-btn');
-        nBtn.onclick = async () => {
-            if (!("Notification" in window)) return;
-            const res = await Notification.requestPermission();
-            if (res === "granted") {
-                nBtn.innerText = "Njoftimet ON";
-                new Notification("TEKTON", { body: "Ju do të njoftoheni për projektet e reja.", icon: "https://img.icons8.com/ios-filled/192/ffffff/modern-house.png" });
-            }
-        };
-
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('data:application/javascript,' + encodeURIComponent('self.addEventListener("fetch", function(e) { e.respondWith(fetch(e.request)); });'));
-        }
     </script>
 </body>
 </html>
