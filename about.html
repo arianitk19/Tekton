@@ -23,94 +23,67 @@
         .serif-luxury { font-family: 'Cormorant Garamond', serif; }
         .tracking-ultra { letter-spacing: 0.5em; text-transform: uppercase; font-size: 10px; }
 
-        /* NAV & GLASS EFFECT */
-        .glass-nav {
-            background: rgba(5, 5, 5, 0.8);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border-light);
-        }
-        .logo-box {
-            width: 45px; height: 45px;
-            border: 1px solid rgba(255,255,255,0.2);
-            transition: all 0.5s ease;
-        }
+        .glass-nav { background: rgba(5, 5, 5, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-light); }
+        .logo-box { width: 45px; height: 45px; border: 1px solid rgba(255,255,255,0.2); transition: all 0.5s ease; }
         .logo-box:hover { border-color: var(--gold-muted); transform: rotate(45deg); }
-
+        
         .lang-btn { opacity: 0.5; transition: opacity 0.3s; cursor: pointer; }
         .lang-btn.active { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
+        .mobile-lang-btn { cursor: pointer; }
+        .mobile-lang-btn.active { opacity: 1; text-decoration: underline; color: var(--gold-muted); }
 
-        /* ULTRA MODERN MARQUEE (NON-STOP) */
+        .hero-gradient { background: radial-gradient(circle at center, rgba(148, 134, 119, 0.05) 0%, transparent 70%); }
+
         .marquee-container {
-            width: 100vw;
-            margin-left: calc(-50vw + 50%);
-            overflow: hidden;
-            background: rgba(255, 255, 255, 0.02);
-            border-top: 1px solid var(--border-light);
-            border-bottom: 1px solid var(--border-light);
-            padding: 30px 0;
-            display: flex;
-            white-space: nowrap;
+            width: 100vw; margin-left: calc(-50vw + 50%); overflow: hidden;
+            background: rgba(148, 134, 119, 0.03);
+            border-top: 1px solid rgba(148, 134, 119, 0.1);
+            border-bottom: 1px solid rgba(148, 134, 119, 0.1);
+            padding: 25px 0; display: flex; white-space: nowrap;
         }
-
-        .marquee-content {
-            display: flex;
-            animation: scroll-marquee 30s linear infinite;
-            min-width: 200%;
-        }
-
+        .marquee-content { display: flex; animation: scroll-marquee 40s linear infinite; min-width: 200%; }
         .marquee-item {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(2rem, 4vw, 3.5rem);
-            font-style: italic;
-            color: rgba(255, 255, 255, 0.15);
-            padding: 0 40px;
-            display: flex;
-            align-items: center;
-            transition: all 0.6s ease;
+            font-family: 'Cormorant Garamond', serif; font-size: clamp(1.5rem, 3vw, 2.5rem);
+            font-style: italic; color: var(--gold-muted); padding: 0 50px; opacity: 0.8;
+        }
+        @keyframes scroll-marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        .bg-stripes {
+            background-color: #080808;
+            background-image: linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 40px 100%;
         }
 
-        .marquee-item:hover { color: var(--gold-muted); transform: scale(1.05); }
-
-        .marquee-dot {
-            width: 6px;
-            height: 6px;
-            background: var(--gold-muted);
-            border-radius: 50%;
-            margin-left: 60px;
-            opacity: 0.5;
+        #architect-modal {
+            display: none; position: fixed; inset: 0; z-index: 500;
+            background: rgba(0,0,0,0.95); align-items: center; justify-content: center; padding: 20px;
         }
-
-        @keyframes scroll-marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+        .modal-inner {
+            background: #0d0d0d; border: 1px solid rgba(148, 134, 119, 0.2);
+            width: 100%; max-width: 900px; display: flex; flex-direction: column; position: relative;
         }
+        @media (min-width: 768px) { .modal-inner { flex-direction: row; height: 70vh; } }
 
-        /* REVEAL & SKILLS */
-        .reveal-mask {
-            clip-path: inset(0 100% 0 0);
-            transition: clip-path 1.4s cubic-bezier(0.77, 0, 0.175, 1);
+        .btn-minimal {
+            padding: 12px 30px; border: 1px solid var(--gold-muted);
+            background: transparent; color: var(--gold-muted); letter-spacing: 0.3em;
+            text-transform: uppercase; font-size: 9px; transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
         }
-        .reveal-mask.visible { clip-path: inset(0 0 0 0); }
-
-        .skill-line-bg { height: 1px; background: rgba(255,255,255,0.05); width: 100%; position: relative; margin-top: 10px; }
-        .skill-line-fill { height: 1px; background: var(--gold-muted); width: 0%; transition: width 2s cubic-bezier(0.22, 1, 0.36, 1); }
-
-        .stat-number { font-size: clamp(3rem, 8vw, 6rem); line-height: 1; opacity: 0.1; transition: opacity 1s ease; }
-        .stat-card:hover .stat-number { opacity: 0.8; color: var(--gold-muted); }
+        .btn-minimal:hover { background: var(--gold-muted); color: black; letter-spacing: 0.4em; }
     </style>
 </head>
 <body class="antialiased">
 
     <div id="mobile-menu" class="fixed inset-0 z-[200] hidden flex-col items-center justify-center bg-[#000000] space-y-10 text-2xl uppercase tracking-[0.3em] font-light">
-        <button id="close-menu" class="absolute top-10 right-10 text-sm tracking-ultra" data-key="nav-close">Close</button>
+        <button id="close-menu" class="absolute top-10 right-10 text-sm tracking-ultra">Close</button>
         <nav class="flex flex-col items-center space-y-8">
-            <a href="index.html" class="hover:text-[#948677] transition-colors" data-key="nav-home">Home</a>
-            <a href="projects.html" class="hover:text-[#948677] transition-colors" data-key="nav-projects">Projects</a>
-            <a href="services.html" class="hover:text-[#948677] transition-colors" data-key="nav-services">Services</a>
-            <a href="about.html" class="hover:text-[#948677] transition-colors" data-key="nav-studio">Studio</a>
+            <a href="index.html" class="hover:text-[#948677] transition-colors" data-key="nav-home">Ballina</a>
+            <a href="projects.html" class="hover:text-[#948677] transition-colors" data-key="nav-projects">Projekte</a>
+            <a href="services.html" class="hover:text-[#948677] transition-colors" data-key="nav-services">Shërbime</a>
+            <a href="about.html" class="hover:text-[#948677] transition-colors text-[#948677]" data-key="nav-studio">Studio</a>
         </nav>
         <div class="pt-6">
-            <a href="contact.html" class="px-10 py-4 border border-white/20 text-[10px] uppercase tracking-[0.4em] hover:bg-white hover:text-black transition-all duration-500" data-key="nav-talk">Let's Talk</a>
+            <a href="contact.html" class="px-10 py-4 border border-white/20 text-[10px] uppercase tracking-[0.4em] hover:bg-white hover:text-black transition-all duration-500" data-key="nav-talk">Bisedojmë</a>
         </div>
         <div class="flex items-center space-x-6 pt-10 border-t border-white/10 w-40 justify-center">
             <button onclick="setLanguage('sq')" class="mobile-lang-btn text-sm tracking-widest opacity-50 transition-all" id="m-lang-sq">SQ</button>
@@ -128,14 +101,14 @@
             </div>
             <div class="flex flex-col">
                 <span class="text-xl tracking-[0.4em] font-extralight uppercase">Tekton</span>
-                <span class="text-[8px] tracking-[0.3em] text-zinc-500 uppercase" data-key="sub-logo">Architecture & Design</span>
+                <span class="text-[8px] tracking-[0.3em] text-zinc-500 uppercase" data-key="sub-logo">Arkitekturë & Dizajn</span>
             </div>
         </a>
 
         <div class="hidden lg:flex space-x-12 items-center">
-            <a href="index.html" class="tracking-ultra hover:text-white transition-all" data-key="nav-home">Home</a>
-            <a href="projects.html" class="tracking-ultra hover:text-white transition-all" data-key="nav-projects">Projects</a>
-            <a href="services.html" class="tracking-ultra hover:text-white transition-all" data-key="nav-services">Services</a>
+            <a href="index.html" class="tracking-ultra hover:text-white transition-all" data-key="nav-home">Ballina</a>
+            <a href="projects.html" class="tracking-ultra hover:text-white transition-all" data-key="nav-projects">Projekte</a>
+            <a href="services.html" class="tracking-ultra hover:text-white transition-all" data-key="nav-services">Shërbime</a>
             <a href="about.html" class="tracking-ultra text-white relative" data-key="nav-studio">Studio<span class="absolute -bottom-1 left-0 w-full h-[1px] bg-white"></span></a>
             
             <div class="flex items-center space-x-3 ml-4 border-l border-white/10 pl-6">
@@ -146,7 +119,7 @@
         </div>
 
         <div class="hidden md:block">
-            <a href="contact.html" class="px-8 py-3 border border-white/10 hover:border-white text-[10px] uppercase tracking-widest transition-all" data-key="nav-talk">Let's Talk</a>
+            <a href="contact.html" class="px-8 py-3 border border-white/10 hover:border-white text-[10px] uppercase tracking-widest transition-all" data-key="nav-talk">Bisedojmë</a>
         </div>
 
         <button id="open-menu" class="lg:hidden flex flex-col space-y-1.5">
@@ -155,157 +128,135 @@
         </button>
     </nav>
 
-    <main class="pt-48">
-        <section class="mb-40">
-            <div class="px-6 md:px-20 max-w-5xl mb-24">
-                <span class="tracking-ultra text-zinc-600 block mb-8" data-key="a-subtitle">Filozofia Jonë</span>
-                <h1 class="serif-luxury text-5xl md:text-[90px] leading-tight">
-                    <span data-key="a-title-1">Ne nuk ndërtojmë thjesht mure. Ne skalitim</span> <span class="italic text-zinc-500" data-key="a-title-glow">dritën</span> <span data-key="a-title-2">dhe</span> <span class="italic text-zinc-500" data-key="a-title-space">hapësirën.</span>
-                </h1>
-            </div>
-
-            <div class="marquee-container">
-                <div class="marquee-content" id="marquee-wrapper">
-                    </div>
-            </div>
-        </section>
-
-        <section class="px-6 md:px-20 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center mb-40">
-            <div class="reveal-mask relative h-[650px] bg-zinc-900 overflow-hidden" id="about-img-trigger">
-                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=1000" 
-                     alt="Fitim Hoti" class="w-full h-full object-cover grayscale opacity-50 hover:opacity-100 transition-all duration-1000">
-            </div>
-            <div class="space-y-8">
-                <h2 class="serif-luxury text-6xl italic text-white" data-key="architect-name">Fitim Hoti</h2>
-                <p class="tracking-ultra text-[#948677]">Arkitekt / Lead Designer</p>
-                <p class="text-zinc-500 font-light leading-relaxed text-lg" data-key="vision-p1">
-                    I diplomuar në Universitetin e Prishtinës, Fitimi ka udhëhequr TEKTON drejt projekteve që sfidojnë kohën, duke integruar minimalizmin me funksionalitetin.
+    <main>
+        <section class="min-h-[90vh] pt-60 pb-32 px-6 md:px-20 hero-gradient">
+            <div class="max-w-4xl">
+                <span class="tracking-ultra text-zinc-500 block mb-6 animate-pulse" data-key="a-subtitle">Studio & Vizioni</span>
+                <h1 class="serif-luxury text-6xl md:text-[95px] leading-[0.9] text-white mb-10" data-key="a-title">
+                    Ekselencë në <br> <span class="italic text-[#948677]">çdo dimension</span> arkitektonik.  </h1>  
+            
+                <p class="text-zinc-400 text-lg md:text-xl font-light max-w-2xl leading-relaxed mb-12" data-key="a-desc">
                 </p>
-                
-                <div class="pt-10 space-y-6">
-                    <h4 class="tracking-ultra text-xs text-zinc-400">Software Mastery</h4>
-                    <div class="space-y-4">
-                        <div>
-                            <div class="flex justify-between text-[10px] mb-2"><span>CHIEF ARCHITECT</span><span>90%</span></div>
-                            <div class="skill-line-bg"><div class="skill-line-fill" data-width="90%"></div></div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-[10px] mb-2"><span>ARCHICAD</span><span>85%</span></div>
-                            <div class="skill-line-bg"><div class="skill-line-fill" data-width="85%"></div></div>
-                        </div>
+                <button id="open-profile" class="btn-minimal" data-key="btn-arch">Njihuni me arkitektin</button>
+            </div>
+        </section>
+
+        <div class="marquee-container">
+            <div class="marquee-content" id="marquee-wrapper"></div>
+        </div>
+
+        <section class="py-40 px-6 md:px-20 bg-stripes relative border-y border-white/5">
+            <div class="flex flex-col md:flex-row items-center gap-20">
+                <div class="w-full md:w-1/2">
+                    <div class="relative group overflow-hidden border border-white/10">
+                        <img src="Images/tektonstudio.png" class="w-full aspect-square object-cover grayscale opacity-60 group-hover:scale-105 transition-transform duration-1000">
                     </div>
+                </div>
+                <div class="w-full md:w-1/2 space-y-8">
+                    <span class="tracking-ultra text-zinc-600" data-key="next-chapter">Kapitulli i rradhës</span>
+                    <h2 class="serif-luxury text-5xl md:text-7xl" data-key="ratkoc-title">Vizioni i ri në <span class="italic">Ratkoc.</span></h2>
+                    <p class="text-zinc-400 font-light leading-relaxed text-lg" data-key="ratkoc-desc">
+                        Një hapësirë ku idetë marrin formë konkrete. Studioja jonë e re në Ratkoc po bëhet gati të jetë epiqendra e kreativitetit dhe inovacionit tonë të ardhshëm.
+                    </p>
+                    <a href="https://maps.google.com" target="_blank" class="inline-block px-10 py-5 border border-white/10 hover:border-white/40 transition-all text-[10px] tracking-[0.4em] uppercase font-light" data-key="btn-loc">
+                        Shko tek lokacioni
+                    </a>
                 </div>
             </div>
         </section>
 
-        <section class="px-6 md:px-20 mb-40 border-t border-white/5 pt-32">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-20">
-                <h3 class="serif-luxury text-4xl italic" data-key="exp-title">Eksperienca</h3>
-                <div class="lg:col-span-2 space-y-16">
-                    <div class="group border-b border-white/5 pb-10">
-                        <span class="text-[10px] text-[#948677] tracking-[0.3em]">2014 — PRESENT</span>
-                        <h4 class="serif-luxury text-3xl mt-2">Lead Architect at TEKTON</h4>
-                        <p class="text-zinc-500 font-light mt-4 leading-relaxed">Udhëheqja e projekteve komplekse rezidenciale P+12 dhe dizajni i hoteleve premium.</p>
-                    </div>
-                    <div class="group border-b border-white/5 pb-10">
-                        <span class="text-[10px] text-zinc-600 tracking-[0.3em]">2018 — 2022</span>
-                        <h4 class="serif-luxury text-3xl mt-2">Construction Supervisor</h4>
-                        <p class="text-zinc-500 font-light mt-4 leading-relaxed">Mbikëqyrja teknike e katër objekteve madhore banimi në nivel rajonal.</p>
-                    </div>
+        <section class="py-40 px-6 md:px-20 bg-black">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-1px bg-white/5 border border-white/5">
+                <div class="bg-black p-12 space-y-6 hover:bg-zinc-950 transition-colors">
+                    <span class="text-xs text-[#948677] font-medium">01</span>
+                    <h3 class="serif-luxury text-3xl" data-key="ph-1-t">Preciziteti</h3>
+                    <p class="text-zinc-500 text-sm font-light leading-relaxed" data-key="ph-1-d">Çdo milimetër llogaritet për të krijuar harmoni mes funksionit dhe estetikës së pastër.</p>
                 </div>
-            </div>
-        </section>
-
-        <section class="bg-zinc-950 py-32 px-6 md:px-20">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-16">
-                <div class="stat-card text-center md:text-left">
-                    <div class="stat-number serif-luxury">10Y</div>
-                    <h3 class="tracking-ultra text-white mt-4" data-key="st-1">Përvojë</h3>
+                <div class="bg-black p-12 space-y-6 hover:bg-zinc-950 transition-colors border-x border-white/5">
+                    <span class="text-xs text-[#948677] font-medium">02</span>
+                    <h3 class="serif-luxury text-3xl" data-key="ph-2-t">Minimalizmi</h3>
+                    <p class="text-zinc-500 text-sm font-light leading-relaxed" data-key="ph-2-d">Heqja e të panevojshmes për t'i lënë hapësirë shpirtit të vërtetë të dizajnit.</p>
                 </div>
-                <div class="stat-card text-center md:text-left">
-                    <div class="stat-number serif-luxury">250+</div>
-                    <h3 class="tracking-ultra text-white mt-4" data-key="st-2">Projekte</h3>
-                </div>
-                <div class="stat-card text-center md:text-left">
-                    <div class="stat-number serif-luxury">P+12</div>
-                    <h3 class="tracking-ultra text-white mt-4" data-key="st-3">Lartësi</h3>
+                <div class="bg-black p-12 space-y-6 hover:bg-zinc-950 transition-colors">
+                    <span class="text-xs text-[#948677] font-medium">03</span>
+                    <h3 class="serif-luxury text-3xl" data-key="ph-3-t">Përjetësia</h3>
+                    <p class="text-zinc-500 text-sm font-light leading-relaxed" data-key="ph-3-d">Arkitekturë që i reziston kohës dhe trendeve kalimtare përmes materialeve fisnike.</p>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="py-10 px-6 md:px-20 border-t border-white/5 text-center">
-        <p class="text-[10px] tracking-widest text-zinc-600 uppercase">© 2026 TEKTON ARCHITECTS. FITIM HOTI DESIGN.</p>
-    </footer>
+    <div id="architect-modal">
+        <div class="modal-inner overflow-hidden">
+            <button id="close-profile" class="absolute top-6 right-6 z-50 text-white/40 hover:text-white transition-colors">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M18 6L6 18M6 6l12 12"/>
+                </svg>
+            </button>
+            <div class="w-full md:w-5/12 h-full relative overflow-hidden">
+                <img src="Images/fitimhoti.jpg" class="w-full h-full object-cover grayscale">
+            </div>
+            <div class="w-full md:w-7/12 p-10 md:p-16 bg-[#0a0a0a] flex flex-col justify-center">
+                <span class="tracking-ultra text-zinc-600 text-[8px] mb-2">Lead Architect</span>
+                <h2 class="serif-luxury text-5xl text-white mb-8">Fitim Hoti</h2>
+                <div class="space-y-8">
+                    <div>
+                        <h4 class="text-zinc-200 text-xs tracking-widest uppercase mb-3" data-key="modal-exp">Eksperienca</h4>
+                        <p class="text-zinc-500 text-sm font-light leading-relaxed" data-key="modal-exp-d">RAFFI Grup sh.p.k / Prizren. Zhvillim i 3 Master-planeve kryesore.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         const translations = {
             sq: {
-                "nav-home": "Ballina", "nav-projects": "Projekte", "nav-services": "Shërbime",
-                "nav-studio": "Studio", "nav-talk": "Bisedojmë", "nav-close": "Mbyll",
-                "sub-logo": "Arkitekturë & Dizajn", "a-subtitle": "Filozofia Jonë",
-                "a-title-1": "Ne nuk ndërtojmë thjesht mure. Ne skalitim", "a-title-glow": "dritën", "a-title-space": "hapësirën.",
-                "architect-name": "Fitim Hoti", "exp-title": "Eksperienca",
-                "st-1": "Përvojë", "st-2": "Projekte", "st-3": "Lartësi",
-                "soon": "Së shpejti në Ratkoc"
+                "nav-home": "Ballina", "nav-projects": "Projekte", "nav-services": "Shërbime", "nav-studio": "Studio", "nav-talk": "Bisedojmë", "sub-logo": "Arkitekturë & Dizajn",
+                "a-subtitle": "Studio & Vizioni", "a-title": "Ekselencë në çdo dimension arkitektonik.", "a-desc": "Mirësevini në TEKTON Architecture Studio",
+                "btn-arch": "Njihuni me arkitektin", "marquee-text": "Së shpejti: Tekton Studio në Ratkoc", "next-chapter": "Kapitulli i rradhës", "ratkoc-title": "Vizioni i ri në Ratkoc.", "ratkoc-desc": "Një hapësirë ku idetë marrin formë konkrete...", "btn-loc": "Shko tek lokacioni",
+                "ph-1-t": "Preciziteti", "ph-1-d": "Çdo milimetër llogaritet...", "ph-2-t": "Minimalizmi", "ph-2-d": "Heqja e të panevojshmes...", "ph-3-t": "Përjetësia", "ph-3-d": "Arkitekturë që i reziston kohës...", "modal-exp": "Eksperienca"
             },
             en: {
-                "nav-home": "Home", "nav-projects": "Projects", "nav-services": "Services",
-                "nav-studio": "Studio", "nav-talk": "Let's Talk", "nav-close": "Close",
-                "sub-logo": "Architecture & Design", "a-subtitle": "Our Philosophy",
-                "a-title-1": "We don't just build walls. We sculpt", "a-title-glow": "light", "a-title-space": "space.",
-                "architect-name": "Fitim Hoti", "exp-title": "Experience",
-                "st-1": "Experience", "st-2": "Projects", "st-3": "Height",
-                "soon": "Coming soon in Ratkoc"
+                "nav-home": "Home", "nav-projects": "Projects", "nav-services": "Services", "nav-studio": "Studio", "nav-talk": "Let's Talk", "sub-logo": "Architecture & Design",
+                "a-subtitle": "Studio & Vision", "a-title": "Excellence in every architectural dimension.", "a-desc": "Welcome to TEKTON Architecture Studio",
+                "btn-arch": "Meet the architect", "marquee-text": "Coming Soon: Tekton Studio in Ratkoc", "next-chapter": "Next Chapter", "ratkoc-title": "New Vision in Ratkoc.", "ratkoc-desc": "A space where ideas take concrete form...", "btn-loc": "Go to location",
+                "ph-1-t": "Precision", "ph-1-d": "Every millimeter counts...", "ph-2-t": "Minimalism", "ph-2-d": "Removing the unnecessary...", "ph-3-t": "Eternity", "ph-3-d": "Architecture that resists time...", "modal-exp": "Experience"
             }
         };
 
-        function updateMarquee(lang) {
-            const wrapper = document.getElementById('marquee-wrapper');
-            const text = translations[lang]["soon"];
-            let content = "";
-            for (let i = 0; i < 10; i++) {
-                content += `<div class="marquee-item">${text}<div class="marquee-dot"></div></div>`;
-            }
-            wrapper.innerHTML = content + content;
-        }
-
         function setLanguage(lang) {
             localStorage.setItem('preferred-lang', lang);
-            updateMarquee(lang);
             document.querySelectorAll('[data-key]').forEach(el => {
                 const key = el.getAttribute('data-key');
                 if (translations[lang][key]) el.innerText = translations[lang][key];
             });
-            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.id === `lang-${lang}`));
-            document.querySelectorAll('.mobile-lang-btn').forEach(btn => btn.classList.toggle('underline', btn.id === `m-lang-${lang}`));
+            initMarquee(translations[lang]["marquee-text"]);
+            
+            // UI Active State
+            document.querySelectorAll('.lang-btn, .mobile-lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`lang-${lang}`).classList.add('active');
+            document.getElementById(`m-lang-${lang}`).classList.add('active');
         }
 
-        const openBtn = document.getElementById('open-menu');
-        const closeBtn = document.getElementById('close-menu');
+        function initMarquee(text = "Së shpejti Tekton Studio në Ratkoc") {
+            const wrapper = document.getElementById('marquee-wrapper');
+            let content = "";
+            for (let i = 0; i < 10; i++) content += `<div class="marquee-item">${text} </div>`;
+            wrapper.innerHTML = content + content;
+        }
+
+        // Mobile Menu
         const menu = document.getElementById('mobile-menu');
+        document.getElementById('open-menu').onclick = () => menu.classList.replace('hidden', 'flex');
+        document.getElementById('close-menu').onclick = () => menu.classList.replace('flex', 'hidden');
 
-        openBtn.onclick = () => { menu.classList.replace('hidden', 'flex'); gsap.fromTo(menu, {opacity: 0}, {opacity: 1, duration: 0.4}); };
-        closeBtn.onclick = () => { gsap.to(menu, {opacity: 0, duration: 0.4, onComplete: () => menu.classList.replace('flex', 'hidden')}); };
+        // Modal
+        const modal = document.getElementById('architect-modal');
+        document.getElementById('open-profile').onclick = () => { modal.style.display = 'flex'; gsap.from(".modal-inner", {y: 30, opacity: 0}); };
+        document.getElementById('close-profile').onclick = () => modal.style.display = 'none';
 
-        gsap.registerPlugin(ScrollTrigger);
-        window.addEventListener('load', () => {
-            setLanguage(localStorage.getItem('preferred-lang') || 'sq');
-            
-            ScrollTrigger.create({
-                trigger: "#about-img-trigger",
-                start: "top 70%",
-                onEnter: () => document.querySelector('.reveal-mask').classList.add('visible')
-            });
-
-            document.querySelectorAll('.skill-line-fill').forEach(bar => {
-                ScrollTrigger.create({
-                    trigger: bar,
-                    start: "top 95%",
-                    onEnter: () => bar.style.width = bar.getAttribute('data-width')
-                });
-            });
-        });
+        window.onload = () => setLanguage(localStorage.getItem('preferred-lang') || 'sq');
     </script>
 </body>
 </html>
