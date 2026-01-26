@@ -115,6 +115,10 @@
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
         }
+        
+        /* Aktiviteti i butonave filter */
+        .filter-btn { transition: all 0.3s ease; opacity: 0.5; }
+        .filter-btn.active { opacity: 1; color: var(--gold-muted); }
     </style>
 </head>
 <body class="antialiased">
@@ -174,7 +178,7 @@
 <main class="pt-48 pb-20 px-6 md:px-20">
     <div class="flex flex-col md:flex-row md:items-end justify-between mb-24 gap-8">
         <div class="overflow-hidden">
-            <h1 class="serif-luxury text-6xl md:text-[110px] leading-none mb-6 gs-reveal" data-key="p-title"><h1>Projektet</h1>
+            <h1 class="serif-luxury text-6xl md:text-[110px] leading-none mb-6 gs-reveal" data-key="p-title">Projektet</h1>
             <p class="text-zinc-500 tracking-[0.3em] uppercase text-[10px] gs-reveal" data-key="p-subtitle">Vizioni ynë përmes arkitekturës</p>
         </div>
         
@@ -189,7 +193,7 @@
         
         <div class="md:col-span-7 project-card gs-reveal-item h-[600px]" data-category="interior" 
              onclick="openP('Salloni & Kuzhina Modern', 'Një koncept bashkëkohor që ndërthur ngrohtësinë e drurit me linjat minimale të kuzhinës.', 
-             ['https://images.unsplash.com/photo-1600607687920-4e2a09cf159d', 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3', 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c', 'https://images.unsplash.com/photo-1600121848594-d8644e57abab', 'https://images.unsplash.com/photo-1600566753086-00f18fb6f3ea', 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0'])">
+             ['https://images.unsplash.com/photo-1600607687920-4e2a09cf159d', 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3', 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c', 'https://images.unsplash.com/photo-1600121848594-d8644e57abab', 'https://images.unsplash.com/photo-16005667533086-00f18fb6f3ea', 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0'])">
             <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200" class="project-image w-full h-full object-cover">
             <div class="overlay-info absolute inset-0 p-10 flex flex-col justify-end">
                 <span class="text-[9px] tracking-widest text-zinc-400 uppercase mb-2">Interier / 6 Imazhe</span>
@@ -352,6 +356,33 @@
     const menu = document.getElementById('mobile-menu');
     openBtn.onclick = () => { menu.classList.replace('hidden', 'flex'); gsap.fromTo(menu, {opacity: 0}, {opacity: 1, duration: 0.5}); };
     closeBtn.onclick = () => { gsap.to(menu, {opacity: 0, duration: 0.5, onComplete: () => menu.classList.replace('flex', 'hidden')}); };
+
+    // --- FILTRIMI I PROJEKTEVE ---
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.project-card');
+
+    filterButtons.forEach(btn => {
+        btn.onclick = () => {
+            // Ndrysho butonin aktiv
+            filterButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const filterValue = btn.getAttribute('data-filter');
+
+            projectCards.forEach(card => {
+                const category = card.getAttribute('data-category');
+                
+                if (filterValue === 'all' || category === filterValue) {
+                    gsap.to(card, { opacity: 1, scale: 1, duration: 0.4, display: 'block', ease: "power2.out" });
+                } else {
+                    gsap.to(card, { opacity: 0, scale: 0.95, duration: 0.4, display: 'none', ease: "power2.out" });
+                }
+            });
+            
+            // Rifresko ScrollTrigger pas filtrimit
+            setTimeout(() => ScrollTrigger.refresh(), 500);
+        };
+    });
 </script>
 </body>
 </html>
